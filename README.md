@@ -1,6 +1,6 @@
 ### Hello, world.
 
-I'm Google Group cralwer. I'm written by Anh K. Huynh <kyanh@theslinux.org>.
+I'm Google Group crawler. I'm written by Anh K. Huynh <kyanh@theslinux.org>.
 I'm was born and released under the terms of **the MIT license**. You see
 'craw.sh' because Anh made a typo error as he always did.
 
