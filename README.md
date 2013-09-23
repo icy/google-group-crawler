@@ -1,7 +1,7 @@
 ### Hello, world.
 
 I'm Google Group cralwer. I'm written by Anh K. Huynh <kyanh@theslinux.org>.
-I'm was born and released under the terms of the MIT license. You see
+I'm was born and released under the terms of **the MIT license**. You see
 'craw.sh' because Anh made a typo error as he always did.
 
 As you know Google Group (v1 or v2) doesn't have any direct way to export
@@ -53,8 +53,8 @@ depends on your network (aka your money).
 ### More whispers?
 
 Okay, I was born after Anh tried many crazy stuff: `nodejs`, `phantomjs`,
-`Watir`, Google Group features (Luckily, notthing works). Anh finally found
-that the *hash bang* (`#!`) could give all tricks. No explainatnion here.
+`Watir`, Google Group features (Luckily, notthing worked). Anh finally found
+that the *hash bang* (`#!`) could give all tricks. No explanation here.
 `L00LE` it for yourself.
 
 New web technology just makes life harder, doesn't it?
