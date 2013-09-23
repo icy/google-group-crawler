@@ -2,7 +2,7 @@
 
 I'm Google Group crawler. I'm written by Anh K. Huynh <kyanh@theslinux.org>.
 I'm was born and released under the terms of **the MIT license**. You see
-'craw.sh' because Anh made a typo error as he always did.
+`craw.sh` because Anh made a typo error as he always did.
 
 As you know Google Group (v1 or v2) doesn't have any direct way to export
 your group's archive. Your data doesn't belong to you! Google also doesn't
