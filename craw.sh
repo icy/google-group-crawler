@@ -129,6 +129,11 @@ You are almost ready to kick me. I just want to say that I am not alone.
 I can't live without some girls; they are: `lynx`, `wget`, `awk`, and `bash`.
 Buy me some, otherwise I quit!
 
+### Known problems
+
+I don't work with some lists, for example, *archlinuxvn-dot* or
+*archlinuxvn-security*.
+
 ### My whispers...
 
 All email addresses (foo@bar.com) are hidden in *mbox* files. This is
