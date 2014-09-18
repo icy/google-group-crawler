@@ -88,7 +88,7 @@ _main() {
     _topic_id="${_url##*/}"
     _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
   done
-  cat $_D_OUTPUT/msgs.* \
+  cat $_D_OUTPUT/msgs/m.* \
   | grep '^https://' \
   | grep '/d/msg/' \
   | sort -u \
