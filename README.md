@@ -50,6 +50,16 @@ Buy me some, otherwise I quit!
 2. The list of threads is a LIFO. If you want to rescan your list,
    you will need to delete all files under `$_D_OUTPUT/threads/`
 
+3. You can set the time for the `mbox` output file, as below
+
+        ls $_GROUP/mbox/m.* \
+        | while read FILE; do \
+            date="$( \
+              grep ^Date: $FILE\
+              | head -1\
+              | sed -e 's#^Date: ##g')";
+            touch -d "$date" $FILE;
+          done
 
 ### Known problems
 
