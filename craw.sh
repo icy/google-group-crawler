@@ -63,7 +63,7 @@ _download_page() {
       echo >&2 ":: Creating '$_f_output' with '$(_short_url $_url)'"
     fi
     lynx --dump "$_url" \
-      | grep "https://" \
+      | grep " https://" \
       | grep "/$_GROUP" \
       | awk '{print $NF}' \
         > "$_f_output"
@@ -80,14 +80,18 @@ _main() {
   _download_page "$_D_OUTPUT/threads" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
   cat $_D_OUTPUT/threads.[0-9]* \
+  | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
+  | sort -u \
   | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
   | while read _url; do
     _topic_id="${_url##*/}"
     _download_page "$_D_OUTPUT/msgs.${_topic_id}" "$_url"
   done
   cat $_D_OUTPUT/msgs.* \
+  | grep '^https://' \
   | grep '/d/msg/' \
+  | sort -u \
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
     _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
