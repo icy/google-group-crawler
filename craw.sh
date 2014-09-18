@@ -77,16 +77,16 @@ _download_page() {
 # Main routine
 _main() {
   mkdir -pv "$_D_OUTPUT" || exit 1
-  _download_page "$_D_OUTPUT/threads" \
+  _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
-  cat $_D_OUTPUT/threads.[0-9]* \
+  cat $_D_OUTPUT/threads/t.[0-9]* \
   | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
   | sort -u \
   | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
   | while read _url; do
     _topic_id="${_url##*/}"
-    _download_page "$_D_OUTPUT/msgs.${_topic_id}" "$_url"
+    _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
   done
   cat $_D_OUTPUT/msgs.* \
   | grep '^https://' \
@@ -95,7 +95,7 @@ _main() {
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
     _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-    echo wget -c "$_url" -O "$_D_OUTPUT/mbox.${_id}"
+    echo wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
   done
 }
 
