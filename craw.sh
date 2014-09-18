@@ -27,9 +27,14 @@
 
 # For your hack ;)
 #
-# Forum: https://groups.google.com/forum/?_escaped_fragment_=forum/archlinuxvn
-# Topic: https://groups.google.com/forum/?_escaped_fragment_=topic/archlinuxvn/wXRTQFqBtlA
-# Raw: https://groups.google.com/forum/message/raw?msg=archlinuxvn/_atKwaIFVGw/rnwjMJsA4ZYJ
+# Forum, list of all threads, LIFO
+#   https://groups.google.com/forum/?_escaped_fragment_=forum/archlinuxvn
+#
+# Topic, list of all messages in a thread, FIFO
+#   https://groups.google.com/forum/?_escaped_fragment_=topic/archlinuxvn/wXRTQFqBtlA
+#
+# Raw, a MH mail message:
+#   https://groups.google.com/forum/message/raw?msg=archlinuxvn/_atKwaIFVGw/rnwjMJsA4ZYJ
 #
 
 _GROUP="${_GROUP:-}"
@@ -53,7 +58,7 @@ _download_page() {
         echo >&2 ":: Updating '$_f_output' with '$(_short_url $_url)'"
       else
         echo >&2 ":: Skipping '$_f_output' (downloaded with '$(_short_url $_url)')"
-        if ! _url="$(grep '?_escaped_fragment_=' "$_f_output")"; then
+        if ! _url="$(grep -E '_escaped_fragment_=.*false%5D' "$_f_output")"; then
           break
         fi
         (( __ ++ ))
@@ -67,7 +72,7 @@ _download_page() {
       | grep "/$_GROUP" \
       | awk '{print $NF}' \
         > "$_f_output"
-    if ! _url="$(grep '?_escaped_fragment_=' "$_f_output")"; then
+    if ! _url="$(grep -E '_escaped_fragment_=.*false%5D' "$_f_output")"; then
       break
     fi
     (( __ ++ ))
@@ -77,8 +82,11 @@ _download_page() {
 # Main routine
 _main() {
   mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ || exit 1
+
   _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
+
+  # Download list of all topics
   cat $_D_OUTPUT/threads/t.[0-9]* \
   | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
@@ -88,6 +96,8 @@ _main() {
     _topic_id="${_url##*/}"
     _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
   done
+
+  # Download list of all raw messages
   cat $_D_OUTPUT/msgs/m.* \
   | grep '^https://' \
   | grep '/d/msg/' \
@@ -95,7 +105,9 @@ _main() {
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
     _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-    echo wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+    echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
+    echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+    echo "fi"
   done
 }
 
