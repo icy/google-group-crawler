@@ -32,7 +32,7 @@
 # Raw: https://groups.google.com/forum/message/raw?msg=archlinuxvn/_atKwaIFVGw/rnwjMJsA4ZYJ
 #
 
-_GROUP="${_GROUP:-archlinuxvn}"
+_GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
 
 _short_url() {
@@ -172,14 +172,19 @@ EOF
 _check() {
   which wget >/dev/null \
   && which lynx > /dev/null \
-  && which awk > /dev/null
+  && which awk > /dev/null \
+  || {
+    echo >&2 ":: Some program is missing. Please install them"
+    return 1
+  }
+
+  if [[ -z "$_GROUP" ]]; then
+    echo >&2 ":: Please use _GROUP environment variable to specify your google group"
+    return 1
+  fi
 }
 
-_check \
-|| {
-  echo >&2 ":: Some program is missing. Please install them"
-  exit 127
-}
+_check || exit
 
 case $1 in
  "-h"|"--help") _help; exit 1 ;;
