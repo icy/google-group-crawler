@@ -30,6 +30,27 @@ You are almost ready to kick me. I just want to say that I am not alone.
 I can't live without some girls; they are: `lynx`, `wget`, `awk`, and `bash`.
 Buy me some, otherwise I quit!
 
+### Tips and Tricks
+
+1. Because Topics is a FIFO, you only need to remove the last file.
+   The script will re-download that one, and may jump to another page.
+
+      ls $_GROUP/msgs/m.* \
+      | sed -e 's#\.[0-9]\+$##g' \
+      | sort -u \
+      | while read f; do
+          last_item="$f.$( \
+            ls $f.* \
+            | sed -e 's#^.*\.\([0-9]\+\)#\1#g' \
+            | sort -n \
+            | tail -1)";
+          echo $last_item;
+        done
+
+2. The list of threads is a LIFO. If you want to rescan your list,
+   you will need to delete all files under $_D_OUTPUT/threads/
+
+
 ### Known problems
 
 I don't work with some lists, for example, *archlinuxvn-dot* or
