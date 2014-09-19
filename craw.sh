@@ -84,7 +84,7 @@ _download_page() {
 
 # Main routine
 _main() {
-  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ || exit 1
+  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>/dev/null || exit 1
 
   _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
