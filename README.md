@@ -1,9 +1,9 @@
-## Description
+### Description
 
-This is `Bash` script to download all public `mbox` files from
+This is a `Bash` script to download all public `mbox` files from
 a Google Group.
 
-## Usage
+### Usage
 
 The first run
 
@@ -24,11 +24,11 @@ If you want the script to re-scan the whole archive, try
 
 or you simply delete all files under `$_GROUP/` directory.
 
-## Requirements
+### Requirements
 
 `bash`, `lynx`, `wget`, `awk`
 
-## Tips and Tricks
+### Tips and Tricks
 
 1. Because Topics is a FIFO list, you only need to remove the last file.
    The script will re-download the last item, and if there is a new page,
@@ -42,7 +42,8 @@ or you simply delete all files under `$_GROUP/` directory.
               ls $f.* \
               | sed -e 's#^.*\.\([0-9]\+\)#\1#g' \
               | sort -n \
-              | tail -1)";
+              | tail -1 \
+            )";
             echo $last_item;
           done
 
@@ -56,24 +57,25 @@ or you simply delete all files under `$_GROUP/` directory.
             date="$( \
               grep ^Date: $FILE\
               | head -1\
-              | sed -e 's#^Date: ##g')";
+              | sed -e 's#^Date: ##g' \
+            )";
             touch -d "$date" $FILE;
           done
 
     This will be very useful, for example, when you want to use the
     `mbox` files with `mhonarc`.
 
-## Known problems
+### Known problems
 
 This script doesn't work with some Google Groups.
 
 This script can't recover emails because they are hidden from public.
 
-## License
+### License
 
-MIT
+This work is released under the terms of a MIT license.
 
-## Author
+### Author
 
 This script is written by Anh K. Huynh.
 
