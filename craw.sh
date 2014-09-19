@@ -67,14 +67,17 @@ _download_page() {
     else
       echo >&2 ":: Creating '$_f_output' with '$(_short_url $_url)'"
     fi
+
     lynx --dump "$_url" \
-      | grep " https://" \
-      | grep "/$_GROUP" \
-      | awk '{print $NF}' \
-        > "$_f_output"
+    | grep " https://" \
+    | grep "/$_GROUP" \
+    | awk '{print $NF}' \
+    > "$_f_output"
+
     if ! _url="$(grep -E '_escaped_fragment_=.*false%5D' "$_f_output")"; then
       break
     fi
+
     (( __ ++ ))
   done
 }
@@ -93,9 +96,9 @@ _main() {
   | sort -u \
   | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
   | while read _url; do
-    _topic_id="${_url##*/}"
-    _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
-  done
+      _topic_id="${_url##*/}"
+      _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
+    done
 
   # Download list of all raw messages
   cat $_D_OUTPUT/msgs/m.* \
@@ -104,11 +107,11 @@ _main() {
   | sort -u \
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
-    _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-    echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
-    echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
-    echo "fi"
-  done
+      _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
+      echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
+      echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+      echo "fi"
+    done
 }
 
 _help() {
