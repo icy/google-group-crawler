@@ -1,39 +1,38 @@
-### Hello, world.
+## Description
 
-I'm Google Group crawler. I'm written by Anh K. Huynh <kyanh@theslinux.org>.
-I was born and released under the terms of **the MIT license**. You see
-`craw.sh` because Anh made a typo error as he always did.
+This is `Bash` script to download all public `mbox` files from
+a Google Group.
 
-As you know Google Group (v1 or v2) doesn't have any direct way to export
-your group's archive. Your data doesn't belong to you! Google also doesn't
-have any good support for their free stuff. Use Google at your own risk.
+## Usage
 
-I'm your saver! You are listening to me because you've kicked me with
-`-h` or `--help` option. If I am kicked by `-sh` or `--bash` option,
-I will give a you bash script to download all *mbox* files of your group.
-For example,
+The first run
 
     export _GROUP="mygroup"       # specify your group
     ./craw.sh -sh                 # first run for testing
     ./craw.sh -sh > wget.sh       # save your script
     bash wget.sh                  # dowloading mbox files
 
-In my example, the first run is to download all basic information, included
-list of topics, list of emails sent to the group. This run will print
-very verbose information, you may not be interested in them. Actually,
-in the very last steps, the game comes: All `wget` commands are printed
-to your standard output. The second run (which is very fast) will capture
-all commands and save them into the file `wget.sh`, that can be executed
-via `bash wget.sh`.
+When you have some new email in your google group, you will need to
+clean up and remove some temporary files.
 
-You are almost ready to kick me. I just want to say that I am not alone.
-I can't live without some girls; they are: `lynx`, `wget`, `awk`, and `bash`.
-Buy me some, otherwise I quit!
+    rm -fv $_GROUP/threads/t.*    # this is a must
+    rm -fv $_GROUP/msgs/m.*       # see also Tips & Tricks
 
-### Tips and Tricks
+If you want the script to re-scan the whole archive, try
 
-1. Because Topics is a FIFO, you only need to remove the last file.
-   The script will re-download that one, and may jump to another page.
+    _FORCE="true" ./craw.sh -sh
+
+or you simply delete all files under `$_GROUP/` directory.
+
+## Requirements
+
+`bash`, `lynx`, `wget`, `awk`
+
+## Tips and Tricks
+
+1. Because Topics is a FIFO list, you only need to remove the last file.
+   The script will re-download the last item, and if there is a new page,
+   that page will be fetched.
 
         ls $_GROUP/msgs/m.* \
         | sed -e 's#\.[0-9]\+$##g' \
@@ -47,10 +46,10 @@ Buy me some, otherwise I quit!
             echo $last_item;
           done
 
-2. The list of threads is a LIFO. If you want to rescan your list,
+2. The list of threads is a LIFO list. If you want to rescan your list,
    you will need to delete all files under `$_D_OUTPUT/threads/`
 
-3. You can set the time for the `mbox` output file, as below
+3. You can set the time for `mbox` output files, as below
 
         ls $_GROUP/mbox/m.* \
         | while read FILE; do \
@@ -61,36 +60,24 @@ Buy me some, otherwise I quit!
             touch -d "$date" $FILE;
           done
 
-### Known problems
+    This will be very useful, for example, when you want to use the
+    `mbox` files with `mhonarc`.
 
-I don't work with some lists, for example, *archlinuxvn-dot* or
-*archlinuxvn-security*.
+## Known problems
 
-### My whispers...
+This script doesn't work with some Google Groups.
 
-All email addresses (foo@bar.com) are hidden in *mbox* files. This is
-because mbox file is public, hence the addresses must be hidden from
-the spammers. This is very sad news. Fortunately, you can always write
-a wrapper, to replace all hidden addresses with the real ones.
+This script can't recover emails because they are hidden from public.
 
-I write all data to an output directory specified by your `_D_OUTPUT`
-environment. If you don't mind, it's the same as your group name.
+## License
 
-By default, I will skip any download if the previous output does exist.
-To force me (really!?) to download all stuff, use `_FORCE` environment.
-For example
+MIT
 
-    _FORCE="please_do_it" ./craw.sh -sh
+## Author
 
-For heavy list, any process may take a very long time. For example,
-SaigonLUG (Saigon Linux Users Group) takes 47 minutes. Sure this also
-depends on your network (aka your money).
+This script is written by Anh K. Huynh.
 
-### More whispers?
-
-Okay, I was born after Anh tried many crazy stuff: `nodejs`, `phantomjs`,
-`Watir`, Google Group features (Luckily, notthing worked). Anh finally found
-that the *hash bang* (`#!`) could give all tricks. No explanation here.
-`L00LE` it for yourself.
+He wrote this script because he couldn't resolve the problem by using
+`nodejs`, `phantomjs`, `Watir`.
 
 New web technology just makes life harder, doesn't it?
