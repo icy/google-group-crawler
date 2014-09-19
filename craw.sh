@@ -120,7 +120,7 @@ _check() {
   && which lynx > /dev/null \
   && which awk > /dev/null \
   || {
-    echo >&2 ":: Some program is missing. Please install them"
+    echo >&2 ":: Some program is missing. Please make sure you have lynx, wget, and awk"
     return 1
   }
 
