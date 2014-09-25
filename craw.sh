@@ -139,7 +139,7 @@ _rss() {
 
   {
     echo >&2 ":: Fetching RSS data..."
-    wget -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${RSS_COUNT:-50}"
+    wget -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${RSS_NUM:-50}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
