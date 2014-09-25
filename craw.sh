@@ -85,7 +85,10 @@ _download_page() {
       echo >&2 ":: Creating '$_f_output' with '$(_short_url $_url)'"
     fi
 
-    lynx --dump "$_url" \
+    {
+      echo >&2 ":: Fetching data from '$_url'..."
+      lynx --dump "$_url"
+    } \
     | grep " https://" \
     | grep "/$_GROUP" \
     | awk '{print $NF}' \
