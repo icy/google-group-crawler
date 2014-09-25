@@ -129,7 +129,7 @@ _main() {
   | while read _url; do
       _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
       echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
-      echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+      echo "  wget -c \"$_url\" -O \"$_D_OUTPUT/mbox/m.${_id}\""
       echo "fi"
     done
 }
@@ -139,7 +139,7 @@ _rss() {
 
   {
     echo >&2 ":: Fetching RSS data..."
-    curl -Ls "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${RSS_COUNT:-50}"
+    wget -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${RSS_COUNT:-50}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -152,7 +152,7 @@ _rss() {
       _url="https://groups.google.com/forum/message/raw?msg=/$_GROUP/$_id_origin"
       _id="$(echo "$_id_origin" | sed -e 's#/#.#g')"
       echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
-      echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+      echo "  wget -c \"$_url\" -O \"$_D_OUTPUT/mbox/m.${_id}\""
       echo "fi"
     done
 }
@@ -165,9 +165,8 @@ _check() {
   which wget >/dev/null \
   && which lynx > /dev/null \
   && which awk > /dev/null \
-  && which curl > /dev/null \
   || {
-    echo >&2 ":: Some program is missing. Please make sure you have lynx, wget, and awk"
+    echo >&2 ":: Some program is missing. Please make sure you have lynx, wget and awk"
     return 1
   }
 

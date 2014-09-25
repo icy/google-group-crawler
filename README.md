@@ -27,7 +27,7 @@ or you simply delete all files under `$_GROUP/` directory.
 
 ### Requirements
 
-`bash`, `lynx`, `wget`, `awk` and `curl`
+`bash`, `lynx`, `wget`, `awk`.
 
 ### Tips and Tricks
 
