@@ -13,8 +13,8 @@ The first run
     bash wget.sh                  # dowloading mbox files
     ./craw.sh -rss > update.sh    # using rss feed for updating
 
-When you have some new email in your google group, you will need to
-clean up and remove some temporary files.
+When you have some new email in your google group, you can use `-rss`
+option, or you may need to clean up and remove some temporary files.
 
     rm -fv $_GROUP/threads/t.*    # this is a must
     rm -fv $_GROUP/msgs/m.*       # see also Tips & Tricks
@@ -27,7 +27,7 @@ or you simply delete all files under `$_GROUP/` directory.
 
 ### Requirements
 
-`bash`, `lynx`, `wget`, `awk`
+`bash`, `lynx`, `wget`, `awk` and `curl`
 
 ### Tips and Tricks
 
