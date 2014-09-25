@@ -32,9 +32,8 @@ or you simply delete all files under `$_GROUP/` directory.
 ### Tips and Tricks
 
 0. If you clean your files _(as below)_, you may notice that it will be
-   very slow when re-downloading all your files. You may consider to use
-   the `-rss` option instead. This option will fetch data from `rss` feed
-   link.
+   very slow when re-downloading all files. You may consider to use
+   the `-rss` option instead. This option will fetch data from a `rss` link.
 
    It's recommmeded to use the `-rss` option for daily update. By default,
    the number of items is 100. You can change it by the `RSS_NUM` variable.
