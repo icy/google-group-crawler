@@ -36,6 +36,23 @@
 # Raw, a MH mail message:
 #   https://groups.google.com/forum/message/raw?msg=archlinuxvn/_atKwaIFVGw/rnwjMJsA4ZYJ
 #
+# Atom link
+#
+#   https://groups.google.com/forum/feed/archlinuxvn/msgs/atom.xml?num=100
+#   https://groups.google.com/forum/feed/archlinuxvn/topics/atom.xml?num=50
+#
+#   Don't use a very big `num`. Google knows that and changes to 16.
+#   The bad thing is that Google doesn't provide a link to a post.
+#   It only provides link to a topic. Hence for two links above you
+#   would get the same result: links to your topics...
+#
+# Rss link
+#
+#   https://groups.google.com/forum/feed/archlinuxvn/msgs/rss.xml?num=50
+#   https://groups.google.com/forum/feed/archlinuxvn/topics/rss.xml?num=50
+#
+#   Rss link contains link to topic. That's great.
+#
 
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
@@ -84,7 +101,7 @@ _download_page() {
 
 # Main routine
 _main() {
-  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>/dev/null || exit 1
+  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
 
   _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
@@ -114,6 +131,27 @@ _main() {
     done
 }
 
+_rss() {
+  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
+
+  {
+    echo >&2 ":: Fetching RSS data..."
+    curl -Ls "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${RSS_COUNT:-50}"
+  } \
+  | grep '<link>' \
+  | grep 'd/msg/' \
+  | sort -u \
+  | sed \
+      -e 's#<link>##g' \
+      -e 's#</link>##g' \
+  | while read _url; do
+      _id="$(echo "$_url"| sed -e "s#.*$_GROUP/##g" -e 's#/#.#g')"
+      echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
+      echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
+      echo "fi"
+    done
+}
+
 _help() {
   echo "Please visit https://github.com/icy/google-group-crawler for details."
 }
@@ -122,6 +160,7 @@ _check() {
   which wget >/dev/null \
   && which lynx > /dev/null \
   && which awk > /dev/null \
+  && which curl > /dev/null \
   || {
     echo >&2 ":: Some program is missing. Please make sure you have lynx, wget, and awk"
     return 1
@@ -136,8 +175,8 @@ _check() {
 _check || exit
 
 case $1 in
- "-h"|"--help") _help; exit 1 ;;
-"-sh"|"--bash") _main;;
-             *) echo >&2 ":: Use '-h' or '--help' for more details";
-                exit 1 ;;
+"-h"|"--help")    _help;;
+"-sh"|"--bash")   _main;;
+"-rss")           _rss;;
+*)                echo >&2 ":: Use '-h' or '--help' for more details";;
 esac

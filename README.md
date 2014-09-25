@@ -11,6 +11,7 @@ The first run
     ./craw.sh -sh                 # first run for testing
     ./craw.sh -sh > wget.sh       # save your script
     bash wget.sh                  # dowloading mbox files
+    ./craw.sh -rss > update.sh    # using rss feed for updating
 
 When you have some new email in your google group, you will need to
 clean up and remove some temporary files.
@@ -29,6 +30,15 @@ or you simply delete all files under `$_GROUP/` directory.
 `bash`, `lynx`, `wget`, `awk`
 
 ### Tips and Tricks
+
+0. If you clean your files _(as below)_, you may notice that it will be
+   very slow when re-downloading all your files. You may consider to use
+   the `-rss` option instead. This option will fetch data from `rss` feed
+   link.
+
+   It's recommmeded to use the `-rss` option for daily update. By default,
+   the number of items is 100. You can change it by the `RSS_NUM` variable.
+   However, don't use a very big number, because Google will ignore that.
 
 1. Because Topics is a FIFO list, you only need to remove the last file.
    The script will re-download the last item, and if there is a new page,
