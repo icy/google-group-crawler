@@ -148,8 +148,9 @@ _rss() {
       -e 's#<link>##g' \
       -e 's#</link>##g' \
   | while read _url; do
-      _id="$(echo "$_url"| sed -e "s#.*$_GROUP/##g" -e 's#/#.#g')"
-      _url="https://groups.google.com/forum/?_escaped_fragment_=msg/$_GROUP/$_id"
+      _id_origin="$(echo "$_url"| sed -e "s#.*$_GROUP/##g")"
+      _url="https://groups.google.com/forum/message/raw?msg=/$_GROUP/$_id_origin"
+      _id="$(echo "$_id_origin" | sed -e 's#/#.#g')"
       echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
       echo "  "wget -c "$_url" -O "$_D_OUTPUT/mbox/m.${_id}"
       echo "fi"
