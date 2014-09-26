@@ -8,9 +8,14 @@ a Google Group.
 The first run
 
     export _GROUP="mygroup"       # specify your group
+
+    export _RSS_NUM=50            # (optional. See Tips & Tricks.)
+    export _HOOK_FILE=/path/to.sh # (optional. See The Hook.)
+
     ./craw.sh -sh                 # first run for testing
     ./craw.sh -sh > wget.sh       # save your script
     bash wget.sh                  # dowloading mbox files
+
     ./craw.sh -rss > update.sh    # using rss feed for updating
 
 When you have some new email in your google group, you can use `-rss`
@@ -73,6 +78,34 @@ or you simply delete all files under `$_GROUP/` directory.
 
     This will be very useful, for example, when you want to use the
     `mbox` files with `mhonarc`.
+
+### The hook
+
+If you want to execute a `hook` command after when a `mbox` file is
+downloaded, you can do as below
+
+1. Prepare a Bash script file that contains a definition of `__wget_hook`
+   command. The first argument is to specify output filename, and the
+   second argument is to specify the URL. For example, here is simple hook
+
+        # $1: output file
+        # $2: url (https://groups.google.com/forum/message/raw?msg=foobar/topicID/msgID)
+        __wget_hook() {
+          if [[ "$(stat -c %b "$1")" == 0 ]]; then
+            echo >&2 ":: Warning: empty output '$1'"
+          fi
+        }
+
+    In this example, the `hook` will check if the output file is empty,
+    and send a warning to the standard error device.
+
+2. After you set your environment variable `WGET_HOOK_FILE` which should
+   be the path to your file. For example,
+
+        export _GROUP=archlinuxvn
+        export _HOOK_FILE=$HOME/bin/wget.hook.sh
+
+   Now the hook file will be loaded in your future output script.
 
 ### Known problems
 

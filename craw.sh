@@ -128,9 +128,7 @@ _main() {
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
       _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-      echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
-      echo "  wget -c \"$_url\" -O \"$_D_OUTPUT/mbox/m.${_id}\""
-      echo "fi"
+      echo "__wget__ \"$_url\" \"$_D_OUTPUT/mbox/m.${_id}\""
     done
 }
 
@@ -151,10 +149,43 @@ _rss() {
       _id_origin="$(echo "$_url"| sed -e "s#.*$_GROUP/##g")"
       _url="https://groups.google.com/forum/message/raw?msg=/$_GROUP/$_id_origin"
       _id="$(echo "$_id_origin" | sed -e 's#/#.#g')"
-      echo "if [ ! -f \"$_D_OUTPUT/mbox/m.${_id}\" ]; then"
-      echo "  wget -c \"$_url\" -O \"$_D_OUTPUT/mbox/m.${_id}\""
-      echo "fi"
+      echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
+}
+
+# $1: Output File
+# $2: The URL
+__wget__() {
+  if [[ ! -f "$1" ]]; then
+    wget "$2" -O "$1"
+    __wget_hook "$1" "$2"
+  fi
+}
+
+# $1: Output File
+# $2: The URL
+__wget_hook() {
+  :
+}
+
+__sourcing_hook() {
+  source "$1" \
+  || {
+    echo >&2 ":: Error occurred when loading hook file '$1'"
+    exit 1
+  }
+}
+
+_ship_hook() {
+  echo "#!/usr/bin/env bash"
+  declare -f __wget_hook
+
+  if [[ -f "${_HOOK_FILE:-/x/y/z/t/u/v/m}" ]]; then
+    declare -f __sourcing_hook
+    echo "__sourcing_hook $_HOOK_FILE"
+  fi
+
+  declare -f __wget__
 }
 
 _help() {
@@ -180,7 +211,7 @@ _check || exit
 
 case $1 in
 "-h"|"--help")    _help;;
-"-sh"|"--bash")   _main;;
-"-rss")           _rss;;
+"-sh"|"--bash")   _ship_hook; _main;;
+"-rss")           _ship_hook; _rss;;
 *)                echo >&2 ":: Use '-h' or '--help' for more details";;
 esac
