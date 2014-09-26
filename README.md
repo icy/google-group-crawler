@@ -99,7 +99,7 @@ downloaded, you can do as below
     In this example, the `hook` will check if the output file is empty,
     and send a warning to the standard error device.
 
-2. After you set your environment variable `WGET_HOOK_FILE` which should
+2. After you set your environment variable `_HOOK_FILE` which should
    be the path to your file. For example,
 
         export _GROUP=archlinuxvn
