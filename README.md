@@ -41,7 +41,7 @@ or you simply delete all files under `$_GROUP/` directory.
    the `-rss` option instead. This option will fetch data from a `rss` link.
 
    It's recommmeded to use the `-rss` option for daily update. By default,
-   the number of items is 50. You can change it by the `RSS_NUM` variable.
+   the number of items is 50. You can change it by the `_RSS_NUM` variable.
    However, don't use a very big number, because Google will ignore that.
 
 1. Because Topics is a FIFO list, you only need to remove the last file.
