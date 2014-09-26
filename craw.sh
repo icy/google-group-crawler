@@ -128,7 +128,7 @@ _main() {
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read _url; do
       _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-      echo "__wget__ \"$_url\" \"$_D_OUTPUT/mbox/m.${_id}\""
+      echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
 }
 
