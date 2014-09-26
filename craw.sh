@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# Purpose: Make a backup of Google Group [Google Group Cralwer]
+# Purpose: Make a backup of Google Group [Google Group Crawler]
 # Author : Anh K. Huynh
 # Date   : 2013 Sep 22nd
 # License: MIT license
 #
-# Copyright (c) 2013 Anh K. Huynh <kyanh@theslinux.org>
+# Copyright (c) 2013 - 2014 Anh K. Huynh <kyanh@theslinux.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
