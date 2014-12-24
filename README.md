@@ -1,3 +1,10 @@
+## Important Notice
+
+Google has changed their interface.
+The raw messages can't be retrieved normally with `GET` method.
+
+This script will not work anymore.
+
 ### Description
 
 This is a `Bash` script to download all public `mbox` files from
