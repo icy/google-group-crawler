@@ -56,6 +56,7 @@
 
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
+_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0"
 
 _short_url() {
   echo "$@" | sed -e 's#https://groups.google.com/forum/?_escaped_fragment_=##g'
@@ -87,7 +88,7 @@ _download_page() {
 
     {
       echo >&2 ":: Fetching data from '$_url'..."
-      lynx --dump "$_url"
+      lynx -useragent="$_USER_AGENT" --dump "$_url"
     } \
     | grep " https://" \
     | grep "/$_GROUP" \
@@ -137,7 +138,7 @@ _rss() {
 
   {
     echo >&2 ":: Fetching RSS data..."
-    wget -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM:-50}"
+    wget --user-agent="$_USER_AGENT" -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM:-50}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -157,7 +158,7 @@ _rss() {
 # $2: The URL
 __wget__() {
   if [[ ! -f "$1" ]]; then
-    wget "$2" -O "$1"
+    wget --user-agent="$_USER_AGENT" "$2" -O "$1"
     __wget_hook "$1" "$2"
   fi
 }
