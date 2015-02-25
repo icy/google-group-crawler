@@ -88,8 +88,8 @@ or you simply delete all files under `$_GROUP/` directory.
 
 ### The hook
 
-If you want to execute a `hook` command after when a `mbox` file is
-downloaded, you can do as below
+If you want to execute a `hook` command after a `mbox` file is downloaded,
+you can do as below.
 
 1. Prepare a Bash script file that contains a definition of `__wget_hook`
    command. The first argument is to specify output filename, and the
