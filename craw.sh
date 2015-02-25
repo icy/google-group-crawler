@@ -54,6 +54,8 @@
 #   Rss link contains link to topic. That's great.
 #
 
+set -u
+
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
 _USER_AGENT="Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0"
