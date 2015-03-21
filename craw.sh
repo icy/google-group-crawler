@@ -214,7 +214,7 @@ _check() {
 
 _check || exit
 
-case $1 in
+case ${1:-} in
 "-h"|"--help")    _help;;
 "-sh"|"--bash")   _ship_hook; _main;;
 "-rss")           _ship_hook; _rss;;
