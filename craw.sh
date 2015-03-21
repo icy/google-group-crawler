@@ -74,7 +74,7 @@ _download_page() {
   while :; do
     _f_output="$1.${__}"
     if [[ -f "$_f_output" ]]; then
-      if [[ -n "$_FORCE" ]]; then
+      if [[ -n "${_FORCE:-}" ]]; then
         echo >&2 ":: Updating '$_f_output' with '$(_short_url $_url)'"
       else
         echo >&2 ":: Skipping '$_f_output' (downloaded with '$(_short_url $_url)')"
