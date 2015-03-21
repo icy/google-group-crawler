@@ -3,6 +3,8 @@
 This is a `Bash` script to download all public `mbox` files from
 a Google Group.
 
+You see `craw.sh` because the author made a typo error as he always did.
+
 ### Usage
 
 The first run
