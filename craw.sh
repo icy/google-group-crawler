@@ -90,7 +90,7 @@ _download_page() {
 
     {
       echo >&2 ":: Fetching data from '$_url'..."
-      lynx -useragent="$_USER_AGENT" --dump "$_url"
+      lynx -display_charset UTF-8 -useragent="$_USER_AGENT" --dump "$_url"
     } \
     | grep " https://" \
     | grep "/$_GROUP" \
