@@ -90,6 +90,8 @@ _download_page() {
 
     {
       echo >&2 ":: Fetching data from '$_url'..."
+      # My apologies to Daniel. See
+      #   https://github.com/icy/google-group-crawler/issues/3
       lynx -display_charset UTF-8 -useragent="$_USER_AGENT" --dump "$_url"
     } \
     | grep " https://" \
