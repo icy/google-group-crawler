@@ -14,11 +14,11 @@ The first run
 
     ./craw.sh -sh                 # first run for testing
     ./craw.sh -sh > wget.sh       # save your script
-    bash wget.sh                  # dowloading mbox files
+    bash wget.sh                  # downloading mbox files
 
     ./craw.sh -rss > update.sh    # using rss feed for updating
 
-When you have some new email in your google group, you can use `-rss`
+When you have some new emails in your google group, you can use `-rss`
 option, or you may need to clean up and remove some temporary files.
 
     rm -fv $_GROUP/threads/t.*    # this is a must
@@ -85,8 +85,8 @@ If you want to execute a `hook` command after a `mbox` file is downloaded,
 you can do as below.
 
 1. Prepare a Bash script file that contains a definition of `__wget_hook`
-   command. The first argument is to specify output filename, and the
-   second argument is to specify the URL. For example, here is simple hook
+   command. The first argument is to specify an output filename, and the
+   second argument is to specify an URL. For example, here is simple hook
 
         # $1: output file
         # $2: url (https://groups.google.com/forum/message/raw?msg=foobar/topicID/msgID)
