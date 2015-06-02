@@ -3,8 +3,6 @@
 This is a `Bash` script to download all public `mbox` files from
 a Google Group.
 
-You see `craw.sh` because the author made a typo error as he always did.
-
 ### Usage
 
 The first run
@@ -14,11 +12,11 @@ The first run
     export _RSS_NUM=50            # (optional. See Tips & Tricks.)
     export _HOOK_FILE=/path/to.sh # (optional. See The Hook.)
 
-    ./craw.sh -sh                 # first run for testing
-    ./craw.sh -sh > wget.sh       # save your script
+    ./crawler.sh -sh              # first run for testing
+    ./crawler.sh -sh > wget.sh    # save your script
     bash wget.sh                  # downloading mbox files
 
-    ./craw.sh -rss > update.sh    # using rss feed for updating
+    ./crawler.sh -rss > update.sh # using rss feed for updating
 
 When you have some new emails in your google group, you can use `-rss`
 option, or you may need to clean up and remove some temporary files.
@@ -28,13 +26,13 @@ option, or you may need to clean up and remove some temporary files.
 
 If you want the script to re-scan the whole archive, try
 
-    _FORCE="true" ./craw.sh -sh
+    _FORCE="true" ./crawler.sh -sh
 
 or you simply delete all files under `$_GROUP/` directory.
 
 ### Requirements
 
-`bash`, `lynx`, `wget`, `awk`.
+`bash`, `sort`, `wget`, `sed`, `awk`.
 
 ### Tips and Tricks
 
