@@ -67,7 +67,7 @@ _short_url() {
 _links_dump() {
   wget --user-agent="$_USER_AGENT" -O- "$@" \
   | sed -e "s#['\"]#\n#g" \
-  | grep --color -E '^https?://' \
+  | grep -E '^https?://' \
   | sort -u
 }
 
