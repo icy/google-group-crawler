@@ -64,6 +64,13 @@ _short_url() {
   echo "$@" | sed -e 's#https://groups.google.com/forum/?_escaped_fragment_=##g'
 }
 
+_links_dump() {
+  wget --user-agent="$_USER_AGENT" -O- "$@" \
+  | sed -e "s#['\"]#\n#g" \
+  | grep --color -E '^https?://' \
+  | sort -u
+}
+
 # $1: output file [/path/to/directory/prefix]
 # $2: url
 _download_page() {
@@ -90,11 +97,9 @@ _download_page() {
 
     {
       echo >&2 ":: Fetching data from '$_url'..."
-      # My apologies to Daniel. See
-      #   https://github.com/icy/google-group-crawler/issues/3
-      lynx -display_charset UTF-8 -useragent="$_USER_AGENT" --dump "$_url"
+      _links_dump "$_url"
     } \
-    | grep " https://" \
+    | grep "https://" \
     | grep "/$_GROUP" \
     | awk '{print $NF}' \
     > "$_f_output"
@@ -199,10 +204,11 @@ _help() {
 
 _check() {
   which wget >/dev/null \
-  && which lynx > /dev/null \
+  && which sort > /dev/null \
   && which awk > /dev/null \
+  && which sed > /dev/null \
   || {
-    echo >&2 ":: Some program is missing. Please make sure you have lynx, wget and awk"
+    echo >&2 ":: Some program is missing. Please make sure you have sort, wget, sed and awk"
     return 1
   }
 
