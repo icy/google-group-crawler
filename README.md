@@ -4,9 +4,9 @@
 * [Usage](#usage)
 * [Installation](#installation)
 * [The hook](#the-hook)
-* [Private group](private-group)
+* [Private group](#private-group)
 * [Tips. Tricks](#tips-and-tricks)
-* [Known-problems](#known-problems)
+* [Known problems](#known-problems)
 * [License](#license)
 * [Author](#author)
 
