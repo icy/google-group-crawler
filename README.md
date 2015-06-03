@@ -55,7 +55,7 @@ or you simply delete all files under `$_GROUP/` directory.
    save them as file.
    Please use a Netscape format. See `man wget` for details.
 
-2. Specify your cookie by `_WGET_OPTIONS`:
+2. Specify your cookie file by `_WGET_OPTIONS`:
 
         export _WGET_OPTIONS="--load-cookies /your/path/my_cookies.txt
                               --keep-session-cookies"
