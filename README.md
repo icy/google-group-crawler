@@ -137,11 +137,11 @@ you can do as below.
 
 ## Known problems
 
-This script can't recover emails because they are hidden from public
+This script can't recover emails public groups
 unless you use valid cookies to download data.
 
-When cookies are used, all emails are recovered, and you must filter
-them before making your archive public.
+When cookies are used, all emails are recovered,
+and you must filter them before making your archive public.
 
 ## License
 
