@@ -59,13 +59,17 @@ set -u
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
 _USER_AGENT="Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0"
+_WGET_OPTIONS="${_WGET_OPTIONS:-}"
 
 _short_url() {
   echo "$@" | sed -e 's#https://groups.google.com/forum/?_escaped_fragment_=##g'
 }
 
 _links_dump() {
-  wget --user-agent="$_USER_AGENT" -O- "$@" \
+  wget \
+    --user-agent="$_USER_AGENT" \
+    $_WGET_OPTIONS \
+    -O- "$@" \
   | sed -e "s#['\"]#\n#g" \
   | grep -E '^https?://' \
   | sort -u
@@ -147,7 +151,10 @@ _rss() {
 
   {
     echo >&2 ":: Fetching RSS data..."
-    wget --user-agent="$_USER_AGENT" -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM:-50}"
+    wget \
+      --user-agent="$_USER_AGENT" \
+      $_WGET_OPTIONS \
+      -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM:-50}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -167,7 +174,10 @@ _rss() {
 # $2: The URL
 __wget__() {
   if [[ ! -f "$1" ]]; then
-    wget --user-agent="$_USER_AGENT" "$2" -O "$1"
+    wget \
+      --user-agent="$_USER_AGENT" \
+      $_WGET_OPTIONS \
+      "$2" -O "$1"
     __wget_hook "$1" "$2"
   fi
 }
