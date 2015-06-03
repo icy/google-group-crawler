@@ -137,7 +137,7 @@ you can do as below.
 
 ## Known problems
 
-This script can't recover emails public groups
+This script can't recover emails from public groups
 unless you use valid cookies to download data.
 
 When cookies are used, all emails are recovered,
