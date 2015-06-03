@@ -1,9 +1,28 @@
-### Description
+## Table of contents
 
-This is a `Bash` script to download all public `mbox` files from
-a Google Group.
+* [Description](#description)
+* [Usage](#usage)
+* [Installation](#installation)
+* [The hook](#the-hook)
+* [Private group](private-group)
+* [Tips. Tricks](#tips-and-tricks)
+* [Known-problems](#known-problems)
+* [License](#license)
+* [Author](#author)
 
-### Usage
+## Description
+
+This is a `Bash` script to download all `mbox` files from
+any Google group. Private groups require you to load cookies from file.
+
+## Installation
+
+The script requires `bash`, `sort`, `wget`, `sed`, `awk`.
+
+Make the script executable with `chmod 755` and put them in your path
+(e.g, `/usr/local/bin/`.)
+
+## Usage
 
 The first run
 
@@ -30,11 +49,48 @@ If you want the script to re-scan the whole archive, try
 
 or you simply delete all files under `$_GROUP/` directory.
 
-### Requirements
+## Private group
 
-`bash`, `sort`, `wget`, `sed`, `awk`.
+1. Export cookies for `google` domains from your browser and
+   save them as file.
+   Please use a Netscape format. See `man wget` for details.
 
-### Tips and Tricks
+2. Specify your cookie by `_WGET_OPTIONS`:
+
+        export _WGET_OPTIONS="--load-cookies /your/path/my_cookies.txt
+                              --keep-session-cookies"
+
+   Now every hidden group can be downloaded :)
+
+## The hook
+
+If you want to execute a `hook` command after a `mbox` file is downloaded,
+you can do as below.
+
+1. Prepare a Bash script file that contains a definition of `__wget_hook`
+   command. The first argument is to specify an output filename, and the
+   second argument is to specify an URL. For example, here is simple hook
+
+        # $1: output file
+        # $2: url (https://groups.google.com/forum/message/raw?msg=foobar/topicID/msgID)
+        __wget_hook() {
+          if [[ "$(stat -c %b "$1")" == 0 ]]; then
+            echo >&2 ":: Warning: empty output '$1'"
+          fi
+        }
+
+    In this example, the `hook` will check if the output file is empty,
+    and send a warning to the standard error device.
+
+2. Set your environment variable `_HOOK_FILE` which should be the path
+   to your file. For example,
+
+        export _GROUP=archlinuxvn
+        export _HOOK_FILE=$HOME/bin/wget.hook.sh
+
+   Now the hook file will be loaded in your future output script.
+
+## Tips and Tricks
 
 0. If you clean your files _(as below)_, you may notice that it will be
    very slow when re-downloading all files. You may consider to use
@@ -79,45 +135,19 @@ or you simply delete all files under `$_GROUP/` directory.
     This will be very useful, for example, when you want to use the
     `mbox` files with `mhonarc`.
 
-### The hook
+## Known problems
 
-If you want to execute a `hook` command after a `mbox` file is downloaded,
-you can do as below.
+This script can't recover emails because they are hidden from public
+unless you use valid cookies to download data.
 
-1. Prepare a Bash script file that contains a definition of `__wget_hook`
-   command. The first argument is to specify an output filename, and the
-   second argument is to specify an URL. For example, here is simple hook
+When cookies are used, all emails are recovered, and you must filter
+them before making your archive public.
 
-        # $1: output file
-        # $2: url (https://groups.google.com/forum/message/raw?msg=foobar/topicID/msgID)
-        __wget_hook() {
-          if [[ "$(stat -c %b "$1")" == 0 ]]; then
-            echo >&2 ":: Warning: empty output '$1'"
-          fi
-        }
-
-    In this example, the `hook` will check if the output file is empty,
-    and send a warning to the standard error device.
-
-2. Set your environment variable `_HOOK_FILE` which should be the path
-   to your file. For example,
-
-        export _GROUP=archlinuxvn
-        export _HOOK_FILE=$HOME/bin/wget.hook.sh
-
-   Now the hook file will be loaded in your future output script.
-
-### Known problems
-
-This script doesn't work with some Google Groups.
-
-This script can't recover emails because they are hidden from public.
-
-### License
+## License
 
 This work is released under the terms of a MIT license.
 
-### Author
+## Author
 
 This script is written by Anh K. Huynh.
 
