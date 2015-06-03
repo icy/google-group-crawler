@@ -56,10 +56,11 @@
 
 set -u
 
-_GROUP="${_GROUP:-}"
-_D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
-_USER_AGENT="Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0"
-_WGET_OPTIONS="${_WGET_OPTIONS:-}"
+export _GROUP="${_GROUP:-}"
+export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
+export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
+export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
+export _RSS_NUM="${_RSS_NUM:-50}"
 
 _short_url() {
   echo "$@" | sed -e 's#https://groups.google.com/forum/?_escaped_fragment_=##g'
@@ -154,7 +155,7 @@ _rss() {
     wget \
       --user-agent="$_USER_AGENT" \
       $_WGET_OPTIONS \
-      -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM:-50}"
+      -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -198,6 +199,12 @@ __sourcing_hook() {
 
 _ship_hook() {
   echo "#!/usr/bin/env bash"
+  echo ""
+  echo "export _GROUP=\"\${_GROUP:-$_GROUP}\""
+  echo "export _D_OUTPUT=\"\${_D_OUTPUT:-$_D_OUTPUT}\""
+  echo "export _USER_AGENT=\"\${_USER_AGENT:-$_USER_AGENT}\""
+  echo "export _WGET_OPTIONS=\"\${_WGET_OPTIONS:-$_WGET_OPTIONS}\""
+  echo ""
   declare -f __wget_hook
 
   if [[ -f "${_HOOK_FILE:-/x/y/z/t/u/v/m}" ]]; then
