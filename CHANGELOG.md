@@ -1,0 +1,19 @@
+## v1.2.0
+
+* Drop the use of `lynx` program. `wget` handles all download now.
+* Accept `_WGET_OPTIONS` environment to control `wget` commands.
+* Can work with private groups thanks to `_WGET_OPTIONS` environment.
+* Rename script (`craw.sh` becomes `crawler.sh`.)
+* Output important variables to the output script.
+* Update documentation (`README.md`.)
+
+## v1.0.1
+
+* Provide fancy agent to `wget` and `lynx` command.
+* Fix wrong URL of `rss` feed.
+* Use `set -u` to avoid unbound variable.
+* Fix display charset of `lynx` program. See #3.
+
+## v1.0.0
+
+* The first public version.
