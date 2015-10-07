@@ -90,7 +90,7 @@ _download_page() {
         echo >&2 ":: Updating '$_f_output' with '$(_short_url $_url)'"
       else
         echo >&2 ":: Skipping '$_f_output' (downloaded with '$(_short_url $_url)')"
-        if ! _url="$(grep -E '_escaped_fragment_=.*false%5D' "$_f_output")"; then
+        if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP" "$_f_output")"; then
           break
         fi
         (( __ ++ ))
