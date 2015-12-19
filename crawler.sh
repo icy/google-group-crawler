@@ -71,7 +71,7 @@ _links_dump() {
     --user-agent="$_USER_AGENT" \
     $_WGET_OPTIONS \
     -O- "$@" \
-  | sed -e "s#['\"]#\n#g" \
+  | sed -e "s#['\"]#\\"$'\n#g' \
   | grep -E '^https?://' \
   | sort -u
 }
