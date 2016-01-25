@@ -134,6 +134,7 @@ _main() {
       _topic_id="${_url##*/}"
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
     done
+    #downloads a limited number of messages from a group
 cd "$_D_OUTPUT"/msgs
 wc -l *.* | sort -r | head -2 > temp.txt
 awk '{print $2}' temp.txt > temp1.txt
