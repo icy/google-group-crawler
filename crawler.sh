@@ -134,7 +134,26 @@ _main() {
       _topic_id="${_url##*/}"
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
     done
-
+cd "$_D_OUTPUT"/msgs
+wc -l *.* | sort -r | head -2 > temp.txt
+awk '{print $2}' temp.txt > temp1.txt
+cp temp1.txt temp.txt
+rm temp1.txt
+mkdir temporary
+while read p
+do
+if [ "$p" == "total" ]; then
+continue 
+else
+cp $p temporary
+fi
+done <temp.txt
+rm  *.*
+cd temporary
+cp * ../
+cd ..
+rm -rf temporary
+cd ../../
   # Download list of all raw messages
   cat "$_D_OUTPUT"/msgs/m.* \
   | grep '^https://' \
