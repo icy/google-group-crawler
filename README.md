@@ -14,7 +14,7 @@ from a given google group.
 But there may be scenerio where someone is intrested in downloading only the 
 messages from most discussed topics in the group.
 
-In such cases this actual google-group-crawler do not provide a solution,so
+In such cases this  google-group-crawler may not give exact results, so
 some modifications were needed to do this.
 
 ##Modification
