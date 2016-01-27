@@ -61,6 +61,7 @@ export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
 export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
 export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
 export _RSS_NUM="${_RSS_NUM:-50}"
+export _limit="${_limit:-}" #This value decides how many topics to be downloaded.
 
 _short_url() {
   printf '%s\n' "${*//https:\/\/groups.google.com\/forum\/\?_escaped_fragment_=/}"
@@ -116,26 +117,10 @@ _download_page() {
     (( __ ++ ))
   done
 }
-
-# Main routine
-_main() {
-  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
-
-  _download_page "$_D_OUTPUT/threads/t" \
-    "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
-
-  # Download list of all topics
-  cat "$_D_OUTPUT"/threads/t.[0-9]* \
-  | grep '^https://' \
-  | grep "/d/topic/$_GROUP" \
-  | sort -u \
-  | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
-  | while read _url; do
-      _topic_id="${_url##*/}"
-      _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
-    done
+#sorting the messages folder to download limited topics based on the value of "limit"
+_sort_msgs_folder(){
 cd "$_D_OUTPUT"/msgs
-wc -l *.* | sort -r | head -2 > temp.txt
+wc -l *.* | sort -r | head -n"$_limit" > temp.txt
 awk '{print $2}' temp.txt > temp1.txt
 cp temp1.txt temp.txt
 rm temp1.txt
@@ -154,6 +139,29 @@ cp * ../
 cd ..
 rm -rf temporary
 cd ../../
+}
+
+# Main routine
+_main() {
+  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
+
+  _download_page "$_D_OUTPUT/threads/t" \
+    "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
+
+  # Download list of all topics
+  cat "$_D_OUTPUT"/threads/t.[0-9]* \
+  | grep '^https://' \
+  | grep "/d/topic/$_GROUP" \
+  | sort -u \
+  | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
+  | while read _url; do
+      _topic_id="${_url##*/}"
+      _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
+    done
+
+  #call _sort_msgs_folder before downloading raw messages from msgs folder
+_sort_msgs_folder
+
   # Download list of all raw messages
   cat "$_D_OUTPUT"/msgs/m.* \
   | grep '^https://' \
