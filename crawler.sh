@@ -117,8 +117,30 @@ _download_page() {
     (( __ ++ ))
   done
 }
+<<<<<<< HEAD
 #sorting the messages folder to download limited topics based on the value of "limit"
 _sort_msgs_folder(){
+=======
+
+# Main routine
+_main() {
+  mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
+
+  _download_page "$_D_OUTPUT/threads/t" \
+    "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
+
+  # Download list of all topics
+  cat "$_D_OUTPUT"/threads/t.[0-9]* \
+  | grep '^https://' \
+  | grep "/d/topic/$_GROUP" \
+  | sort -u \
+  | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
+  | while read _url; do
+      _topic_id="${_url##*/}"
+      _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
+    done
+    #downloads a limited number of messages from a group
+>>>>>>> 99c944772a805e0f2f5a83cb7497d1136f7c92ad
 cd "$_D_OUTPUT"/msgs
 wc -l *.* | sort -r | head -n"$_limit" > temp.txt
 awk '{print $2}' temp.txt > temp1.txt
