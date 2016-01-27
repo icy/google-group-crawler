@@ -1,19 +1,44 @@
-#GoogleGroupCrawler
-for documentation please refer https://github.com/icy/google-group-crawler.git
+#Table of Contents
 
-I have added a piece of code that lets you download only limted messages from a group
-before the mdoule that downloads raw messages from the msgs folder.
+1.Description
+2.Modification
+3.Usage
+
+#Description
+
+icy/google-group-crawler is a script that downloads all the messages 
+from a given google group.
+But there may be scenerio where someone is intrested in downloading only the 
+messages from most discussed topics in the group.
+In such cases this actual google-group-crawler do not provide a solution,so
+some modifications were needed to do this.
+
+#Modification
+
+Without disturbing the actual functionality, a piece of new code is added to the existing one.
+The approach followed to download messages from most discussed topics among the group is:
+1.Find the files in the msgs folder which have more number of urls that belongs to single topic.
+2.Sort those files based on number of lines in each file.(obiviously the topic with more discussions have more urls to actual message).
+3.Specify the limit that indicates how many topic to be downloaded.
+4.Remove all remaining files from msgs folder.
+5.And further processing continous in the same way as it was before.
+6.once it was done open a file in mbox and see whether it containd urls to those topics that are mostly discussed.
+
 #Usage
-I have used Group name CodeWar
 
-export _GROUP="CodeWar"
+export _GROUP="GroupName"
 
+Change the value based on your requirement to limit how many topics to be downloaded
 
-and downloaded only two topic that were dicussed more
-by using the command 
+wc -l *.* | sort -r | head -"limit"
 
+Now execute the following commands:
 
-wc -l *.* | sort -r | head -2
+./crawler.sh -sh 
 
+./crawler.sh -sh > wget.sh
 
-Now top most discussed posts get downloaded.
+bash wget.sh
+
+After it is done open mbox folder and see the files created over there.
+open those files see whether the intended messages are downloaded or not.
