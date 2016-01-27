@@ -19,6 +19,8 @@ some modifications were needed to do this.
 
 Without disturbing the actual functionality, a piece of new code is added to the existing one.
 
+The block of code added is in the form of a function named _sort_msgs_folder()
+
 The approach followed to download messages from most discussed topics among the group is:
 
 1.Find the files in the msgs folder which have more number of urls that belongs to single topic.
@@ -39,7 +41,11 @@ export _GROUP="GroupName"
 
 Change the value based on your requirement to limit how many topics to be downloaded
 
-wc -l *.* | sort -r | head -"limit"
+export _limit="limit value"
+
+The above statement gets effected in the line
+
+wc -l *.* | sort -r | head -n"$_limit"
 
 Now execute the following commands:
 
