@@ -1,9 +1,7 @@
 ##Table of Contents
 
 * [Description](#description)
-
 * [Modification](#modification)
-
 * [Usage](#usage)
 
 ##Description
