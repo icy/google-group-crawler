@@ -1,30 +1,41 @@
-#Table of Contents
+##Table of Contents
 
 1.Description
+
 2.Modification
+
 3.Usage
 
-#Description
+##Description
 
 icy/google-group-crawler is a script that downloads all the messages 
 from a given google group.
+
 But there may be scenerio where someone is intrested in downloading only the 
 messages from most discussed topics in the group.
+
 In such cases this actual google-group-crawler do not provide a solution,so
 some modifications were needed to do this.
 
-#Modification
+##Modification
 
 Without disturbing the actual functionality, a piece of new code is added to the existing one.
+
 The approach followed to download messages from most discussed topics among the group is:
+
 1.Find the files in the msgs folder which have more number of urls that belongs to single topic.
+
 2.Sort those files based on number of lines in each file.(obiviously the topic with more discussions have more urls to actual message).
+
 3.Specify the limit that indicates how many topic to be downloaded.
+
 4.Remove all remaining files from msgs folder.
+
 5.And further processing continous in the same way as it was before.
+
 6.once it was done open a file in mbox and see whether it containd urls to those topics that are mostly discussed.
 
-#Usage
+##Usage
 
 export _GROUP="GroupName"
 
