@@ -51,4 +51,7 @@ bash wget.sh
 
 After it is done open mbox folder and see the files created over there.
 open those files see whether the intended messages are downloaded or not.
+<<<<<<< HEAD
 
+=======
+>>>>>>> 99c944772a805e0f2f5a83cb7497d1136f7c92ad
