@@ -1,17 +1,17 @@
 ##Table of Contents
 
-1.Description
+* [Description](#description)
 
-2.Modification
+* [Modification](#modification)
 
-3.Usage
+* [Usage](#usage)
 
 ##Description
 
 icy/google-group-crawler is a script that downloads all the messages 
 from a given google group.
 
-But there may be scenerio where someone is intrested in downloading only the 
+But there may be scenario where someone is intrested in downloading only the 
 messages from most discussed topics in the group.
 
 In such cases this  google-group-crawler may not give exact results, so
