@@ -6,34 +6,30 @@
 
 ##Description
 
-icy/google-group-crawler is a script that downloads all the messages 
-from a given google group.
+icy/google-group-crawler is a script that downloads all the messages from a given google group.
 
-But there may be scenario where someone is intrested in downloading only the 
-messages from most discussed topics in the group.
+But there may be scenario where someone is intrested in downloading only the messages from most discussed topics in the group.
 
-In such cases this  google-group-crawler may not give exact results, so
-some modifications were needed to do this.
-
+In such cases this google-group-crawler may not give exact results, so some modifications were needed to do this.
 ##Modification
 
 Without disturbing the actual functionality, a piece of new code is added to the existing one.
 
-The block of code added is in the form of a function named _sort_msgs_folder()
+The block of code added is in the form of a function named _sort_msgs_folder ()
 
 The approach followed to download messages from most discussed topics among the group is:
 
-1.Find the files in the msgs folder which have more number of urls that belongs to single topic.
+1. Find the files in the MSGs folder which have more number of urls that belongs to single topic.
 
-2.Sort those files based on number of lines in each file.(obiviously the topic with more discussions have more urls to actual message).
+2. Sort those files based on number of lines in each file. (obviously the topic with more discussions have more urls to actual message).
 
-3.Specify the limit that indicates how many topic to be downloaded.
+3. Specify the limit that indicates how many topics to be downloaded.
 
-4.Remove all remaining files from msgs folder.
+4. Remove all remaining files from msgs folder.
 
-5.And further processing continous in the same way as it was before.
+5. And further processing continues in the same way as it was before.
 
-6.once it was done open a file in mbox and see whether it containd urls to those topics that are mostly discussed.
+6. once it was done open a file in box and see whether it contain urls to those topics that are mostly discussed.
 
 ##Usage
 
@@ -55,6 +51,7 @@ Now execute the following commands:
 
 bash wget.sh
 
-After it is done open mbox folder and see the files created over there.
+After it is done open mailbox folder and see the files created over there.
+
 open those files see whether the intended messages are downloaded or not.
 
