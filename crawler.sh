@@ -236,6 +236,7 @@ _help() {
 }
 
 _has_command() {
+  # well, this is exactly `for cmd in "$@"; do`
   for cmd do
     command -v "$cmd" >/dev/null 2>&1 || return 1
   done
