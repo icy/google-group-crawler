@@ -63,7 +63,7 @@ export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
 export _RSS_NUM="${_RSS_NUM:-50}"
 
 _short_url() {
-  echo "$@" | sed -e 's#https://groups.google.com/forum/?_escaped_fragment_=##g'
+  printf '%s\n' "${*//https:\/\/groups.google.com\/forum\/\?_escaped_fragment_=/}"
 }
 
 _links_dump() {
@@ -71,7 +71,7 @@ _links_dump() {
     --user-agent="$_USER_AGENT" \
     $_WGET_OPTIONS \
     -O- "$@" \
-  | sed -e "s#['\"]#\n#g" \
+  | sed -e "s#['\"]#\\"$'\n#g' \
   | grep -E '^https?://' \
   | sort -u
 }
@@ -146,7 +146,7 @@ _main() {
   #     msg/m.{topic_id}.1
   #     (and so on)
   #
-  cat $_D_OUTPUT/threads/t.[0-9]* \
+  cat "$_D_OUTPUT"/threads/t.[0-9]* \
   | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
   | sort -u \
@@ -156,8 +156,7 @@ _main() {
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
     done
 
-  # Download all raw messages.
-  cat $_D_OUTPUT/msgs/m.* \
+  cat "$_D_OUTPUT"/msgs/m.* \
   | grep '^https://' \
   | grep '/d/msg/' \
   | sort -u \
@@ -187,7 +186,7 @@ _rss() {
   | while read _url; do
       _id_origin="$(echo "$_url"| sed -e "s#.*$_GROUP/##g")"
       _url="https://groups.google.com/forum/message/raw?msg=$_GROUP/$_id_origin"
-      _id="$(echo "$_id_origin" | sed -e 's#/#.#g')"
+      _id="${_id_origin//\//.}"
       echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
 }
@@ -240,11 +239,13 @@ _help() {
   echo "Please visit https://github.com/icy/google-group-crawler for details."
 }
 
+_has_command() {
+  for cmd do
+    command -v "$cmd" >/dev/null 2>&1 || return 1
+  done
+}
 _check() {
-  which wget >/dev/null \
-  && which sort > /dev/null \
-  && which awk > /dev/null \
-  && which sed > /dev/null \
+  _has_command wget sort awk sed \
   || {
     echo >&2 ":: Some program is missing. Please make sure you have sort, wget, sed and awk"
     return 1
