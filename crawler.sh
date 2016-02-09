@@ -27,10 +27,10 @@
 
 # For your hack ;)
 #
-# Forum, list of all threads, LIFO
+# Forum, list of all threads (topics), LIFO
 #   https://groups.google.com/forum/?_escaped_fragment_=forum/archlinuxvn
 #
-# Topic, list of all messages in a thread, FIFO
+# Topic, list of all messages in a thread (topic), FIFO
 #   https://groups.google.com/forum/?_escaped_fragment_=topic/archlinuxvn/wXRTQFqBtlA
 #
 # Raw, a MH mail message:
@@ -121,10 +121,31 @@ _download_page() {
 _main() {
   mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
 
+  # Download all topics (thread) pages. Each page contains a bunch of
+  # topics sorted by time (the latest updated topic comes first.)
+  #
+  #  t.0 the first page   (the latest update)
+  #  t.1 the second page
+  #  (and so on)
+  #
   _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
 
-  # Download list of all topics
+  # Download list of all messages.
+  #
+  # Each thread (topic) file (`t.<number>`) contains a list of messages
+  # sorted by time (the latest updated message comes first.)
+  #
+  #   t.0
+  #     msg/m.{topic_id}.0  (the latest update)
+  #     msg/m.{topic_id}.1
+  #     (and so on)
+  #
+  #   t.1
+  #     msg/m.{topic_id}.0  (the latest update [in this topic])
+  #     msg/m.{topic_id}.1
+  #     (and so on)
+  #
   cat $_D_OUTPUT/threads/t.[0-9]* \
   | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
@@ -135,7 +156,7 @@ _main() {
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
     done
 
-  # Download list of all raw messages
+  # Download all raw messages.
   cat $_D_OUTPUT/msgs/m.* \
   | grep '^https://' \
   | grep '/d/msg/' \
