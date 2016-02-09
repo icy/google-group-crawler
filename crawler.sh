@@ -156,6 +156,7 @@ _main() {
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
     done
 
+  # Download all raw messages.
   cat "$_D_OUTPUT"/msgs/m.* \
   | grep '^https://' \
   | grep '/d/msg/' \
