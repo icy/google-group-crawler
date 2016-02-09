@@ -54,14 +54,6 @@
 #   Rss link contains link to topic. That's great.
 #
 
-set -u
-
-export _GROUP="${_GROUP:-}"
-export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
-export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
-export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
-export _RSS_NUM="${_RSS_NUM:-50}"
-
 _short_url() {
   printf '%s\n' "${*//https:\/\/groups.google.com\/forum\/\?_escaped_fragment_=/}"
 }
@@ -248,6 +240,7 @@ _has_command() {
     command -v "$cmd" >/dev/null 2>&1 || return 1
   done
 }
+
 _check() {
   _has_command wget sort awk sed \
   || {
@@ -260,6 +253,17 @@ _check() {
     return 1
   fi
 }
+
+# An empty function. Can you tell me why is it?
+__main__() { :; }
+
+set -u
+
+export _GROUP="${_GROUP:-}"
+export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
+export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
+export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
+export _RSS_NUM="${_RSS_NUM:-50}"
 
 _check || exit
 
