@@ -138,7 +138,7 @@ _main() {
   #     msg/m.{topic_id}.1
   #     (and so on)
   #
-  cat "$_D_OUTPUT"/threads/t.[0-9]* \
+  find "$_D_OUTPUT"/threads/ -type f -iname "t.[0-9]*" -exec cat {} \; \
   | grep '^https://' \
   | grep "/d/topic/$_GROUP" \
   | sort -u \
@@ -152,7 +152,7 @@ _main() {
   # FIXME: Sorting issue here -----------'
 
   # Download all raw messages.
-  cat "$_D_OUTPUT"/msgs/m.* \
+  find "$_D_OUTPUT"/msgs/ -type f -iname "m.*" -exec cat {} \; \
   | grep '^https://' \
   | grep '/d/msg/' \
   | sort -u \
