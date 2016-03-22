@@ -52,8 +52,18 @@ or you simply delete all files under `$_GROUP/` directory.
 ## Private group
 
 1. Export cookies for `google` domains from your browser and
-   save them as file.
-   Please use a Netscape format. See `man wget` for details.
+   save them as file. Please use a Netscape format.
+   See `man wget` or the following page for details:
+
+     https://xiix.wordpress.com/2006/03/23/mozillafirefox-cookie-format/
+
+   A sample `cookie` file is as below
+
+        groups.google.com FALSE / FALSE 1461209169 G2_ADLT  1458617169721
+        .google.com       TRUE  / FALSE 1474428370 NID      77=a-very-long-string
+        .sstatic.net      TRUE  / FALSE 1490153162 __cfduid a-hash-of-some-thing
+
+    (`G2_ADLT` available when you access some adult-contents group.)
 
 2. Specify your cookie file by `_WGET_OPTIONS`:
 
