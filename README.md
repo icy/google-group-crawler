@@ -12,8 +12,11 @@
 
 ## Description
 
-This is a `Bash` script to download all `mbox` files from
-any Google group. Private groups require you to load cookies from file.
+This is a `Bash` script to download all original messages from
+a Google group archive. Private groups require you to load cookies from file.
+
+The downloaded messages are in `RFC 822` format and it can be converted
+to `mbox` format easily. (See also #15.)
 
 ## Installation
 
@@ -50,6 +53,9 @@ If you want the script to re-scan the whole archive, try
 or you simply delete all files under `$_GROUP/` directory.
 
 ## Private group
+
+To download messages from public gorup, you need to provide cookies
+in legacy format.
 
 1. Export cookies for `google` domains from your browser and
    save them as file. Please use a Netscape format.
@@ -147,8 +153,10 @@ you can do as below.
 
 ## Known problems
 
-This script can't recover emails from public groups
-unless you use valid cookies to download data.
+This script can't recover emails from public groups.
+
+When you use valid cookies to download data, you may see the original emails
+in messages if you are a manager of the group. See also #16.
 
 When cookies are used, all emails are recovered,
 and you must filter them before making your archive public.
