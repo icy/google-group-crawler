@@ -78,6 +78,18 @@ in legacy format.
 
    Now every hidden group can be downloaded :)
 
+## Group on Google Apps
+
+To download messages from your Google Apps account, you need to provide
+the domain name of your organization. It is visible in the Google Groups
+URL as follows:
+
+   https://groups.google.com/a/domain.name/forum...
+
+Specify it in the `_ORG` variable:
+
+        export _ORG="domain.name"
+
 ## The hook
 
 If you want to execute a `hook` command after a `mbox` file is downloaded,
