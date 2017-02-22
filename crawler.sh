@@ -55,7 +55,7 @@
 #
 
 _short_url() {
-  printf '%s\n' "${*//https:\/\/groups.google.com\/forum\/\?_escaped_fragment_=/}"
+  printf '%s\n' "${*//https:\/\/groups.google.com${_ORG:+\/a\/$_ORG}\/forum\/\?_escaped_fragment_=/}"
 }
 
 _links_dump() {
@@ -121,7 +121,7 @@ _main() {
   #  (and so on)
   #
   _download_page "$_D_OUTPUT/threads/t" \
-    "https://groups.google.com/forum/?_escaped_fragment_=forum/$_GROUP"
+    "https://groups.google.com${_ORG:+/a/$_ORG}/forum/?_escaped_fragment_=forum/$_GROUP"
 
   # Download list of all messages.
   #
@@ -171,7 +171,7 @@ _rss() {
     wget \
       --user-agent="$_USER_AGENT" \
       $_WGET_OPTIONS \
-      -O- "https://groups.google.com/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM}"
+      -O- "https://groups.google.com${_ORG:+/a/$_ORG}/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -181,7 +181,7 @@ _rss() {
       -e 's#</link>##g' \
   | while read _url; do
       _id_origin="$(echo "$_url"| sed -e "s#.*$_GROUP/##g")"
-      _url="https://groups.google.com/forum/message/raw?msg=$_GROUP/$_id_origin"
+      _url="https://groups.google.com${_ORG:+/a/$_ORG}/forum/message/raw?msg=$_GROUP/$_id_origin"
       _id="${_id_origin//\//.}"
       echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
@@ -216,6 +216,7 @@ __sourcing_hook() {
 _ship_hook() {
   echo "#!/usr/bin/env bash"
   echo ""
+  echo "export _ORG=\"\${_ORG:-$_ORG}\""
   echo "export _GROUP=\"\${_GROUP:-$_GROUP}\""
   echo "export _D_OUTPUT=\"\${_D_OUTPUT:-$_D_OUTPUT}\""
   echo "export _USER_AGENT=\"\${_USER_AGENT:-$_USER_AGENT}\""
@@ -260,6 +261,7 @@ __main__() { :; }
 
 set -u
 
+export _ORG="${_ORG:-}"
 export _GROUP="${_GROUP:-}"
 export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
 export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
