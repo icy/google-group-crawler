@@ -1,3 +1,7 @@
+**Warning**: It seems Google Team has changed their output structure
+to prevent crawlers. Sometimes this tool works fine, sometimes it doesn't.
+Feel free to report and/or send path to improve the project.
+
 ## Table of contents
 
 * [Description](#description)
@@ -12,7 +16,7 @@
 
 ## Description
 
-This is a `Bash` script to download all original messages from
+This is a `Bash-4` script to download all original messages from
 a Google group archive. Private groups require you to load cookies from file.
 
 The downloaded messages are in `RFC 822` format and it can be converted
@@ -20,7 +24,7 @@ to `mbox` format easily. (See also #15.)
 
 ## Installation
 
-The script requires `bash`, `sort`, `wget`, `sed`, `awk`.
+The script requires `bash-4`, `sort`, `wget`, `sed`, `awk`.
 
 Make the script executable with `chmod 755` and put them in your path
 (e.g, `/usr/local/bin/`.)
