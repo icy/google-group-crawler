@@ -1,5 +1,6 @@
 **Warning**: It seems Google Team has changed their output structure
-to prevent crawlers. Sometimes this tool works fine, sometimes it doesn't.
+to prevent crawlers from working properly.
+Sometimes this tool works fine, sometimes it doesn't.
 Feel free to report and/or send patch to improve the project.
 
 ## Table of contents
