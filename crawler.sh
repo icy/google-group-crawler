@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Purpose: Make a backup of Google Group [Google Group Crawler]
 # Author : Anh K. Huynh
