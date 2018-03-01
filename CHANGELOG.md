@@ -1,3 +1,11 @@
+## v1.2.1
+
+* Fix bugs: #6
+* Fix script shebang.
+* Google organization support.
+* Ensure group name is in lowercase.
+* Minor scripting improvements.
+
 ## v1.2.0
 
 * Drop the use of `lynx` program. `wget` handles all download now.
