@@ -1,6 +1,8 @@
 ## v1.2.1
 
-* Fix bugs: #6
+* Fix bugs: #6 (compatibility issue),
+    #13 (so large group),
+    #16 (email exporting and third-party license issue)
 * Fix script shebang.
 * Google organization support.
 * Ensure group name is in lowercase.
