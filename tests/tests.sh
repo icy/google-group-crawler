@@ -11,9 +11,18 @@ _test_public_1() {
   grep -Ri "Message-Id:" "$_GROUP/mbox/"
 }
 
+_test_public_2() {
+  (
+    export _ORG="viettug.org"
+    export _GROUP="google-group-crawler-public2"
+    _test_public_1
+  )
+}
+
 _main() { :; }
 
 cd "$(dirname "${BASH_SOURCE[0]:-.}")/../tests/" || exit 1
 export PATH="$PATH:$(pwd -P)/../"
 
-_test_public_1
+_test_public_1 || exit 1
+_test_public_2 || exit 2
