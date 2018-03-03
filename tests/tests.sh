@@ -8,8 +8,7 @@ _test_public_1() {
   bash -n "$_GROUP.sh" || return 1
   bash -x "$_GROUP.sh" || return 1
   crawler.sh -rss || return 1
-
-  grep "X-Received:" "$_GROUP/mbox/"m.*
+  grep -Ri "Message-Id:" "$_GROUP/mbox/"
 }
 
 _main() { :; }
