@@ -14,7 +14,7 @@ _test_viettug() {
 
 _main() { :; }
 
-export PATH="$PATH:$(dirname "${BASH_SOURCE[0]:-.}")/../"
 cd "$(dirname "${BASH_SOURCE[0]:-.}")/../tests/" || exit 1
+export PATH="$PATH:$(pwd -P)/../"
 
 _test_viettug
