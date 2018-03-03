@@ -9,12 +9,12 @@ _test_viettug() {
   bash -x "$_GROUP.sh" || return 1
   crawler.sh -rss || return 1
 
-  grep "X-Received:" "tests/$_GROUP/mbox/m*"
+  grep "X-Received:" "$_GROUP/mbox/"m.*
 }
 
 _main() { :; }
 
 export PATH="$PATH:$(dirname "${BASH_SOURCE[0]:-.}")/../"
-cd "$(dirname "${BASH_SOURCE[0]:-.}")" || exit 1
+cd "$(dirname "${BASH_SOURCE[0]:-.}")/../tests/" || exit 1
 
 _test_viettug
