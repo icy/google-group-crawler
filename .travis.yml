@@ -1,0 +1,5 @@
+sudo: required
+language:
+- bash
+script:
+- ./tests/tests.sh
