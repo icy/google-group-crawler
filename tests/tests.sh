@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-_test_viettug() {
-  export _GROUP=viettug
+_test_public_1() {
+  export _GROUP=google-group-crawler-public
 
   echo >&2 ":: --> Testing Public Group $_GROUP <--"
   crawler.sh -sh > "$_GROUP.sh" || return 1
@@ -17,4 +17,4 @@ _main() { :; }
 cd "$(dirname "${BASH_SOURCE[0]:-.}")/../tests/" || exit 1
 export PATH="$PATH:$(pwd -P)/../"
 
-_test_viettug
+_test_public_1
