@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/icy/google-group-crawler.svg?branch=master)](https://travis-ci.org/icy/google-group-crawler)
+
 **Warning**: It seems Google Team has changed their output structure
 to prevent crawlers from working properly.
 Sometimes this tool works fine, sometimes it doesn't.
