@@ -8,7 +8,11 @@ _test_public_1() {
   bash -n "$_GROUP.sh" || return 1
   bash -x "$_GROUP.sh" || return 1
   crawler.sh -rss || return 1
-  grep -Ri "Message-Id:" "$_GROUP/mbox/"
+  grep -Ri "Message-Id:" "$_GROUP/mbox/" \
+  || {
+    echo >&2 ":: Unable to find any mail messages from $_GROUP/mbox/"
+    return 1
+  }
 }
 
 _test_public_2() {
