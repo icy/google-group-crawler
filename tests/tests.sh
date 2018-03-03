@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 _test_public_1() {
-  export _GROUP=google-group-crawler-public
+  export _GROUP="${_GROUP:-google-group-crawler-public}"
 
   echo >&2 ":: --> Testing Public Group $_GROUP <--"
   crawler.sh -sh > "$_GROUP.sh" || return 1
