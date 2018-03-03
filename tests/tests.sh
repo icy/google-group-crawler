@@ -4,9 +4,12 @@ _test_viettug() {
   export _GROUP=viettug
 
   echo >&2 ":: --> Testing Public Group $_GROUP <--"
-  crawler.sh -sh > "$_GROUP.sh"
-  bash -n "$_GROUP.sh"
-  bash -x "$_GROUP.sh"
+  crawler.sh -sh > "$_GROUP.sh" || return 1
+  bash -n "$_GROUP.sh" || return 1
+  bash -x "$_GROUP.sh" || return 1
+  crawler.sh -rss || return 1
+
+  grep "X-Received:" "tests/$_GROUP/mbox/m*"
 }
 
 _main() { :; }
