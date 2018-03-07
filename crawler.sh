@@ -73,15 +73,18 @@ _links_dump() {
 _download_page() {
   local _f_output
   local _url="$2"
+  local _surl=
   local __
+
+  _surl="$(_short_url "$_url")"
   __=0
   while :; do
     _f_output="$1.${__}"
     if [[ -f "$_f_output" ]]; then
       if [[ -n "${_FORCE:-}" ]]; then
-        echo >&2 ":: Updating '$_f_output' with '$(_short_url $_url)'"
+        echo >&2 ":: Updating '$_f_output' with '${_surl}'"
       else
-        echo >&2 ":: Skipping '$_f_output' (downloaded with '$(_short_url $_url)')"
+        echo >&2 ":: Skipping '$_f_output' (downloaded with '${_surl}')"
         if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP" "$_f_output")"; then
           break
         fi
@@ -89,7 +92,7 @@ _download_page() {
         continue
       fi
     else
-      echo >&2 ":: Creating '$_f_output' with '$(_short_url $_url)'"
+      echo >&2 ":: Creating '$_f_output' with '${_surl}'"
     fi
 
     {
@@ -180,7 +183,7 @@ _rss() {
       -e 's#<link>##g' \
       -e 's#</link>##g' \
   | while read _url; do
-      _id_origin="$(echo "$_url"| sed -e "s#.*$_GROUP/##g")"
+      _id_origin="$(sed -e "s#.*$_GROUP/##g" <<<"$_url")"
       _url="https://groups.google.com${_ORG:+/a/$_ORG}/forum/message/raw?msg=$_GROUP/$_id_origin"
       _id="${_id_origin//\//.}"
       echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
