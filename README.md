@@ -1,19 +1,14 @@
 [![Build Status](https://travis-ci.org/icy/google-group-crawler.svg?branch=master)](https://travis-ci.org/icy/google-group-crawler)
 
-**Warning**: It seems Google Team has changed their output structure
-to prevent crawlers from working properly.
-Sometimes this tool works fine, sometimes it doesn't.
-Feel free to report and/or send patch to improve the project.
-
 ## Table of contents
 
 * [Description](#description)
 * [Usage](#usage)
 * [Installation](#installation)
 * [The hook](#the-hook)
-* [Private group](#private-group)
-* [Tips. Tricks](#tips-and-tricks)
+* [Private group or Group hosted by an organization](#private-group-or-group-hosted-by-an-organization)
 * [Known problems](#known-problems)
+* [For script hackers](#for-script-hackers)
 * [License](#license)
 * [Author](#author)
 
@@ -36,6 +31,7 @@ Make the script executable with `chmod 755` and put them in your path
 
 The first run
 
+    # export _ORG="your.company"  # only if you are using Gsuite
     export _GROUP="mygroup"       # specify your group
 
     export _RSS_NUM=50            # (optional. See Tips & Tricks.)
@@ -59,17 +55,13 @@ If you want the script to re-scan the whole archive, try
 
 or you simply delete all files under `$_GROUP/` directory.
 
-## Private group
+## Private group or Group hosted by an organization
 
-To download messages from public gorup, you need to provide cookies
-in legacy format.
+To download messages from private group or group hosted by your organization,
+you need to provide cookies in legacy format.
 
 1. Export cookies for `google` domains from your browser and
    save them as file. Please use a Netscape format.
-   See `man wget` or the following page for details:
-
-     https://xiix.wordpress.com/2006/03/23/mozillafirefox-cookie-format/
-
    A sample `cookie` file is as below
 
         groups.google.com FALSE / FALSE 1461209169 G2_ADLT  1458617169721
@@ -78,24 +70,14 @@ in legacy format.
 
     (`G2_ADLT` available when you access some adult-contents group.)
 
+    When you have the file, please open it and remove all `#HttpOnly_`
+    strings. See also #24.
+
 2. Specify your cookie file by `_WGET_OPTIONS`:
 
-        export _WGET_OPTIONS="--load-cookies /your/path/my_cookies.txt
-                              --keep-session-cookies"
+        export _WGET_OPTIONS="--load-cookies /your/path/my_cookies.txt --keep-session-cookies"
 
    Now every hidden group can be downloaded :)
-
-## Group on Google Apps
-
-To download messages from your Google Apps account, you need to provide
-the domain name of your organization. It is visible in the Google Groups
-URL as follows:
-
-   https://groups.google.com/a/domain.name/forum...
-
-Specify it in the `_ORG` variable:
-
-        export _ORG="domain.name"
 
 ## The hook
 
@@ -125,7 +107,17 @@ you can do as below.
 
    Now the hook file will be loaded in your future output script.
 
-## Tips and Tricks
+## Known problems
+
+This script can't recover emails from public groups.
+
+When you use valid cookies to download data, you may see the original emails
+in messages if you are a manager of the group. See also #16.
+
+When cookies are used, all emails may be recovered,
+and you must filter them before making your archive public.
+
+## For script hackers
 
 0. If you clean your files _(as below)_, you may notice that it will be
    very slow when re-downloading all files. You may consider to use
@@ -169,16 +161,6 @@ you can do as below.
 
     This will be very useful, for example, when you want to use the
     `mbox` files with `mhonarc`.
-
-## Known problems
-
-This script can't recover emails from public groups.
-
-When you use valid cookies to download data, you may see the original emails
-in messages if you are a manager of the group. See also #16.
-
-When cookies are used, all emails are recovered,
-and you must filter them before making your archive public.
 
 ## License
 
