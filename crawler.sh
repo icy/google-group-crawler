@@ -104,7 +104,7 @@ _download_page() {
     | awk '{print $NF}' \
     > "$_f_output"
 
-    if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP" "$_f_output")"; then
+    if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP%5B" "$_f_output")"; then
       break
     fi
 
@@ -116,7 +116,8 @@ _download_page() {
 _main() {
   mkdir -pv "$_D_OUTPUT"/{threads,msgs,mbox}/ 1>&2 || exit 1
 
-  # Download all topics (thread) pages. Each page contains a bunch of
+  echo >&2 ":: Downloading all topics (thread) pages..."
+  # Each page contains a bunch of
   # topics sorted by time (the latest updated topic comes first.)
   #
   #  t.0 the first page   (the latest update)
@@ -126,7 +127,7 @@ _main() {
   _download_page "$_D_OUTPUT/threads/t" \
     "https://groups.google.com${_ORG:+/a/$_ORG}/forum/?_escaped_fragment_=forum/$_GROUP"
 
-  # Download list of all messages.
+  echo >&2 ":: Downloading list of all messages..."
   #
   # Each thread (topic) file (`t.<number>`) contains a list of messages
   # sorted by time (the latest updated message comes first.)
@@ -154,7 +155,7 @@ _main() {
   #                                       /
   # FIXME: Sorting issue here -----------'
 
-  # Download all raw messages.
+  echo >&2 ":: Downloading all raw messages..."
   find "$_D_OUTPUT"/msgs/ -type f -iname "m.*" -exec cat {} \; \
   | grep '^https://' \
   | grep '/d/msg/' \
