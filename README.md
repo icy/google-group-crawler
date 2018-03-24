@@ -18,7 +18,7 @@ This is a `Bash-4` script to download all original messages from
 a Google group archive. Private groups require you to load cookies from file.
 
 The downloaded messages are in `RFC 822` format and it can be converted
-to `mbox` format easily. (See also #15.)
+to `mbox` format easily. (See also https://github.com/icy/google-group-crawler/issues/15.)
 
 ## Installation
 
@@ -71,7 +71,7 @@ you need to provide cookies in legacy format.
     (`G2_ADLT` available when you access some adult-contents group.)
 
     When you have the file, please open it and remove all `#HttpOnly_`
-    strings. See also #24.
+    strings. See also https://github.com/icy/google-group-crawler/issues/24.
 
 2. Specify your cookie file by `_WGET_OPTIONS`:
 
@@ -112,7 +112,7 @@ you can do as below.
 This script can't recover emails from public groups.
 
 When you use valid cookies to download data, you may see the original emails
-in messages if you are a manager of the group. See also #16.
+in messages if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
 
 When cookies are used, all emails may be recovered,
 and you must filter them before making your archive public.
