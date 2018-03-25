@@ -19,6 +19,7 @@ _test_public_2() {
   (
     export _ORG="viettug.org"
     export _GROUP="google-group-crawler-public2"
+    export _WGET_OPTIONS="--load-cookies $(pwd -P)/private-cookies.txt --keep-session-cookies"
     _test_public_1
   )
 }
