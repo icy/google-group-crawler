@@ -10,6 +10,7 @@
   * [Private group or Group hosted by an organization](#private-group-or-group-hosted-by-an-organization)
   * [The hook](#the-hook)
   * [What to do with your local archive](#what-to-do-with-your-local-archive)
+  * [Rescan the whole local archive](#rescan-the-whole-local-archive)
   * [Known problems](#known-problems)
   * [For script hackers](#for-script-hackers)
 * [License](#license)
@@ -39,18 +40,6 @@ The first run
     ./crawler.sh -sh              # first run for testing
     ./crawler.sh -sh > wget.sh    # save your script
     bash wget.sh                  # downloading mbox files
-
-When you have some new emails in your google group, you can use `-rss`
-option, or you may need to clean up and remove some temporary files.
-
-    rm -fv $_GROUP/threads/t.*    # this is a must
-    rm -fv $_GROUP/msgs/m.*       # see also Tips & Tricks
-
-If you want the script to re-scan the whole archive, try
-
-    _FORCE="true" ./crawler.sh -sh
-
-or you simply delete all files under `$_GROUP/` directory.
 
 ### Update your local archive thanks to RSS feed
 
@@ -127,6 +116,20 @@ You can also use [mhonarc](https://www.mhonarc.org/) ultility to convert
 the downloaded to `HTML` files.
 
 See also https://github.com/icy/google-group-crawler/issues/15.
+
+### Rescan the whole local archive
+
+Sometimes you may need to rescan / redownload all messages.
+This can be done by removing all temporary files
+
+    rm -fv $_GROUP/threads/t.*    # this is a must
+    rm -fv $_GROUP/msgs/m.*       # see also Tips & Tricks
+
+or you can use `_FORCE` option:
+
+    _FORCE="true" ./crawler.sh -sh
+
+Another option is to delete all files under `$_GROUP/` directory.
 
 ### Known problems
 
