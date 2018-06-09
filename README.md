@@ -28,6 +28,9 @@ The script requires `bash-4`, `sort`, `wget`, `sed`, `awk`.
 Make the script executable with `chmod 755` and put them in your path
 (e.g, `/usr/local/bin/`.)
 
+The script may not work on `Windows` environment as reported in
+https://github.com/icy/google-group-crawler/issues/26.
+
 ## Usage
 
 ### The first run
@@ -140,6 +143,8 @@ Another option is to delete all files under `$_GROUP/` directory.
   and you must filter them before making your archive public.
 
 ### For script hackers
+
+Please skip this section unless your really know to work with `Bash` and shells.
 
 0. If you clean your files _(as below)_, you may notice that it will be
    very slow when re-downloading all files. You may consider to use
