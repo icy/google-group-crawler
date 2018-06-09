@@ -3,12 +3,15 @@
 ## Table of contents
 
 * [Description](#description)
-* [Usage](#usage)
 * [Installation](#installation)
-* [Private group or Group hosted by an organization](#private-group-or-group-hosted-by-an-organization)
-* [The hook](#the-hook)
-* [Known problems](#known-problems)
-* [For script hackers](#for-script-hackers)
+* [Usage](#usage)
+  * [The first run](#the-first-run)
+  * [Update your local archive thanks to rss feed](#update-your-local-archive-thanks-to-rss-feed)
+  * [Private group or Group hosted by an organization](#private-group-or-group-hosted-by-an-organization)
+  * [The hook](#the-hook)
+  * [What to do with your local archive](#what-to-do-with-your-local-archive)
+  * [Known problems](#known-problems)
+  * [For script hackers](#for-script-hackers)
 * [License](#license)
 * [Author](#author)
 
@@ -16,9 +19,6 @@
 
 This is a `Bash-4` script to download all original messages from
 a Google group archive. Private groups require you to load cookies from file.
-
-The downloaded messages are in `RFC 822` format and it can be converted
-to `mbox` format easily. (See also https://github.com/icy/google-group-crawler/issues/15.)
 
 ## Installation
 
@@ -29,19 +29,16 @@ Make the script executable with `chmod 755` and put them in your path
 
 ## Usage
 
+### The first run
+
 The first run
 
     # export _ORG="your.company"  # only if you are using Gsuite
     export _GROUP="mygroup"       # specify your group
 
-    export _RSS_NUM=50            # (optional. See Tips & Tricks.)
-    export _HOOK_FILE=/path/to.sh # (optional. See The Hook.)
-
     ./crawler.sh -sh              # first run for testing
     ./crawler.sh -sh > wget.sh    # save your script
     bash wget.sh                  # downloading mbox files
-
-    ./crawler.sh -rss > update.sh # using rss feed for updating
 
 When you have some new emails in your google group, you can use `-rss`
 option, or you may need to clean up and remove some temporary files.
@@ -55,7 +52,18 @@ If you want the script to re-scan the whole archive, try
 
 or you simply delete all files under `$_GROUP/` directory.
 
-## Private group or Group hosted by an organization
+### Update your local archive thanks to RSS feed
+
+After you have an archive from the first run you only need to add the latest
+messages as shown in the feed. You can do that with `-rss` option and the
+additional `_RSS_NUM` environment variable:
+
+    export _RSS_NUM=50            # (optional. See Tips & Tricks.)
+    ./crawler.sh -rss > update.sh # using rss feed for updating
+
+It's useful to follow this way frequently to update your local archive.
+
+### Private group or Group hosted by an organization
 
 To download messages from private group or group hosted by your organization,
 you need to provide cookies in legacy format.
@@ -79,7 +87,7 @@ you need to provide cookies in legacy format.
 
    Now every hidden group can be downloaded :)
 
-## The hook
+### The hook
 
 If you want to execute a `hook` command after a `mbox` file is downloaded,
 you can do as below.
@@ -107,17 +115,28 @@ you can do as below.
 
    Now the hook file will be loaded in your future output script.
 
-## Known problems
+### What to do with your local archive
 
-This script can't recover emails from public groups.
+The downloaded messages are found under `$_GROUP/mbox/*`.
 
-When you use valid cookies to download data, you may see the original emails
-in messages if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
+They are in `RFC 822` format (possibly with obfuscated email addresses)
+and they can be converted to `mbox` format easily before being imported
+to your email clients  (`Thunderbird`, `claws-mail`, etc.)
 
-When cookies are used, all emails may be recovered,
-and you must filter them before making your archive public.
+You can also use [mhonarc](https://www.mhonarc.org/) ultility to convert
+the downloaded to `HTML` files.
 
-## For script hackers
+See also https://github.com/icy/google-group-crawler/issues/15.
+
+### Known problems
+
+1. This script may not recover emails from public groups.
+  When you use valid cookies, you may see the original emails
+  if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
+2. When cookies are used, the original emails may be recovered
+  and you must filter them before making your archive public.
+
+### For script hackers
 
 0. If you clean your files _(as below)_, you may notice that it will be
    very slow when re-downloading all files. You may consider to use
