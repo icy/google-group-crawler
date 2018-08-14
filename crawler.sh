@@ -85,7 +85,7 @@ _download_page() {
         echo >&2 ":: Updating '$_f_output' with '${_surl}'"
       else
         echo >&2 ":: Skipping '$_f_output' (downloaded with '${_surl}')"
-        if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP" "$_f_output")"; then
+        if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic)|(categories)/$_GROUP" "$_f_output")"; then
           break
         fi
         (( __ ++ ))
@@ -104,7 +104,7 @@ _download_page() {
     | awk '{print $NF}' \
     > "$_f_output"
 
-    if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic))/$_GROUP" "$_f_output")"; then
+    if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic)|(categories))/$_GROUP" "$_f_output")"; then
       break
     fi
 
@@ -125,7 +125,7 @@ _main() {
   #  (and so on)
   #
   _download_page "$_D_OUTPUT/threads/t" \
-    "https://groups.google.com${_ORG:+/a/$_ORG}/forum/?_escaped_fragment_=forum/$_GROUP"
+    "https://groups.google.com${_ORG:+/a/$_ORG}/forum/?_escaped_fragment_=categories/$_GROUP"
 
   echo >&2 ":: Downloading list of all messages..."
   #
