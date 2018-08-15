@@ -4,6 +4,7 @@
 * Add test cases.
 * Update documentation (Cookie issue.)
 * Minor code improvements.
+* Group with category support (#28, Thanks @LeeKevin)
 
 ## v1.2.1
 
