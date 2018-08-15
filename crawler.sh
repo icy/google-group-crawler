@@ -262,9 +262,11 @@ _has_command() {
 }
 
 _check() {
-  _has_command wget sort awk sed \
+  local _requirements=
+  _requirements="wget sort awk sed diff"
+  _has_command $_requirements \
   || {
-    echo >&2 ":: Some program is missing. Please make sure you have sort, wget, sed and awk"
+    echo >&2 ":: Some program is missing. Please make sure you have $_requirements."
     return 1
   }
 
