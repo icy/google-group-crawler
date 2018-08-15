@@ -59,6 +59,7 @@ _short_url() {
 }
 
 _links_dump() {
+  # shellcheck disable=2086
   wget \
     --user-agent="$_USER_AGENT" \
     $_WGET_OPTIONS \
@@ -107,8 +108,7 @@ _download_page() {
     # Loop detection. See also
     #   https://github.com/icy/google-group-crawler/issues/24
     if [[ $__ -ge 1 ]]; then
-      diff "$_f_output" "$1.$(( __ - 1 ))" >/dev/null 2>&1
-      if [[ $? -eq 0 ]]; then
+      if diff "$_f_output" "$1.$(( __ - 1 ))" >/dev/null 2>&1; then
         echo >&2 ":: =================================================="
         echo >&2 ":: Loop detected. Your cookie may not work correctly."
         echo >&2 ":: You may want to generate new cookie file"
@@ -161,7 +161,7 @@ _main() {
   | grep "/d/topic/$_GROUP" \
   | sort -u \
   | sed -e 's#/d/topic/#/forum/?_escaped_fragment_=topic/#g' \
-  | while read _url; do
+  | while read -r _url; do
       _topic_id="${_url##*/}"
       _download_page "$_D_OUTPUT/msgs/m.${_topic_id}" "$_url"
       #                                 <--+------->
@@ -175,7 +175,7 @@ _main() {
   | grep '/d/msg/' \
   | sort -u \
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
-  | while read _url; do
+  | while read -r _url; do
       _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
       echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
@@ -186,6 +186,7 @@ _rss() {
 
   {
     echo >&2 ":: Fetching RSS data..."
+    # shellcheck disable=2086
     wget \
       --user-agent="$_USER_AGENT" \
       $_WGET_OPTIONS \
@@ -197,7 +198,7 @@ _rss() {
   | sed \
       -e 's#<link>##g' \
       -e 's#</link>##g' \
-  | while read _url; do
+  | while read -r _url; do
       _id_origin="$(sed -e "s#.*$_GROUP/##g" <<<"$_url")"
       _url="https://groups.google.com${_ORG:+/a/$_ORG}/forum/message/raw?msg=$_GROUP/$_id_origin"
       _id="${_id_origin//\//.}"
@@ -209,6 +210,7 @@ _rss() {
 # $2: The URL
 __wget__() {
   if [[ ! -f "$1" ]]; then
+    # shellcheck disable=2086
     wget \
       --user-agent="$_USER_AGENT" \
       $_WGET_OPTIONS \
@@ -224,6 +226,7 @@ __wget_hook() {
 }
 
 __sourcing_hook() {
+  # shellcheck disable=1090
   source "$1" \
   || {
     echo >&2 ":: Error occurred when loading hook file '$1'"
@@ -264,6 +267,7 @@ _has_command() {
 _check() {
   local _requirements=
   _requirements="wget sort awk sed diff"
+  # shellcheck disable=2086
   _has_command $_requirements \
   || {
     echo >&2 ":: Some program is missing. Please make sure you have $_requirements."
