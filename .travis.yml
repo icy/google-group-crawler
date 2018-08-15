@@ -4,4 +4,6 @@ language:
 # before_install:
 # - openssl aes-256-cbc -K $encrypted_6fbbaf71bd2a_key -iv $encrypted_6fbbaf71bd2a_iv -in tests/private-cookies.txt.enc -out tests/private-cookies.txt -d
 script:
+- sudo apt-get install shellcheck
+- shellcheck *.sh
 - ./tests/tests.sh
