@@ -268,7 +268,7 @@ set -u
 export _ORG="${_ORG:-}"
 export _GROUP="${_GROUP:-}"
 export _GROUP="${_GROUP,,}"
-export _D_OUTPUT="${_D_OUTPUT:-./$_GROUP/}"
+export _D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
 export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
 export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
 export _RSS_NUM="${_RSS_NUM:-50}"
