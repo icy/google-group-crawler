@@ -38,6 +38,19 @@ _test_public_1_with_cat() {
     _test_public_1
   )
 }
+_test_public_2_loop_detection() {
+  (
+    export _ORG="viettug.org"
+    export _GROUP="google-group-crawler-public2"
+    export _WGET_OPTIONS="--load-cookies /dev/null --keep-session-cookies"
+    _test_public_1
+    [[ $? == 1 ]] \
+    || {
+      echo >&2 ":: Unable to detect a loop."
+      return 1
+    }
+  )
+}
 
 _test_public_2_with_cookie() {
   (
@@ -63,5 +76,6 @@ export PATH="$PATH:$(pwd -P)/../"
 
 _test_public_1 || exit 1
 _test_public_1_with_cat || exit 1
+_test_public_2_loop_detection || exit 1
 #_test_public_2_with_cookie || exit 2
 # _test_private_1 || exit 3
