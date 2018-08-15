@@ -1,3 +1,10 @@
+## v1.2.2
+
+* Loop detection: #24.
+* Add test cases.
+* Update documentation (Cookie issue.)
+* Minor code improvements.
+
 ## v1.2.1
 
 * Fix bugs: #6 (compatibility issue),
