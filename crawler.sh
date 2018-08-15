@@ -104,6 +104,20 @@ _download_page() {
     | awk '{print $NF}' \
     > "$_f_output"
 
+    # Loop detection. See also
+    #   https://github.com/icy/google-group-crawler/issues/24
+    if [[ $__ -ge 1 ]]; then
+      diff "$_f_output" "$1.$(( __ - 1 ))" >/dev/null 2>&1
+      if [[ $? -eq 0 ]]; then
+        echo >&2 ":: =================================================="
+        echo >&2 ":: Loop detected. Your cookie may not work correctly."
+        echo >&2 ":: You may want to generate new cookie file"
+        echo >&2 ":: and/or remove all '#HttpOnly_' strings from it."
+        echo >&2 ":: =================================================="
+        exit 1
+      fi
+    fi
+
     if ! _url="$(grep -E -- "_escaped_fragment_=((forum)|(topic)|(categories))/$_GROUP" "$_f_output")"; then
       break
     fi
