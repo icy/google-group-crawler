@@ -245,9 +245,12 @@ _ship_hook() {
   echo ""
   declare -f __wget_hook
 
-  if [[ -f "${_HOOK_FILE:-/x/y/z/t/u/v/m}" ]]; then
+  if [[ -f "${_HOOK_FILE:-}" ]]; then
     declare -f __sourcing_hook
     echo "__sourcing_hook $_HOOK_FILE"
+  elif [[ -n "${_HOOK_FILE:-}" ]]; then
+    echo >&2 ":: ${FUNCNAME[0]}: _HOOK_FILE ($_HOOK_FILE) does not exist."
+    exit 1
   fi
 
   declare -f __wget__
