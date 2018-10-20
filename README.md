@@ -13,7 +13,7 @@
   * [Rescan the whole local archive](#rescan-the-whole-local-archive)
   * [Known problems](#known-problems)
   * [For script hackers](#for-script-hackers)
-* [Similar projects](#similar-project)
+* [Similar projects](#similar-projects)
 * [License](#license)
 * [Author](#author)
 
