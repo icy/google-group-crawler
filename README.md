@@ -13,6 +13,7 @@
   * [Rescan the whole local archive](#rescan-the-whole-local-archive)
   * [Known problems](#known-problems)
   * [For script hackers](#for-script-hackers)
+* [Similar projects](#similar-project)
 * [License](#license)
 * [Author](#author)
 
@@ -70,8 +71,10 @@ you need to provide cookies in legacy format.
 
     (`G2_ADLT` available when you access some adult-contents group.)
 
-    When you have the file, please open it and remove all `#HttpOnly_`
-    strings. See also https://github.com/icy/google-group-crawler/issues/24.
+    When you have the file, please open it and find all instances of `#HttpOnly_`
+    and replace them with an empty string. The cookie file is expected to
+    have the following keys: `SID`, `HSID`, `SSDI` and `groupsloginpref`.
+    See also https://github.com/icy/google-group-crawler/issues/24.
 
 2. Specify your cookie file by `_WGET_OPTIONS`:
 
@@ -188,6 +191,14 @@ Please skip this section unless your really know to work with `Bash` and shells.
 
     This will be very useful, for example, when you want to use the
     `mbox` files with `mhonarc`.
+
+## Similar projects
+
+* (Shell/curl) [ggscrape - Download emails from a Google Group. Rescue your archives](https://git.scuttlebot.io/%25nkOkiGF0Dd321GmNqs6aW%2BWHaH9Uunq4m8dVfJuU%2Bps%3D.sha256)
+* (Python/Webdriver) [scrape_google_groups.py  - A simple script to scrape a google group](https://gist.github.com/punchagan/7947337)
+* (Python/webscraping.webkit) [gg-scrape - Liberate you data from google groups](https://github.com/jrholliday/gg-scrape)
+* (Python/urllib) [gg_scraper -](https://gitlab.com/mcepl/gg_scraper)
+* (PHP/libcurl) [scraping-google-groups](http://saturnboy.com/2010/03/scraping-google-groups/)
 
 ## License
 
