@@ -1,9 +1,8 @@
 sudo: required
 language:
 - bash
-before_install:
-- cd tests/ && openssl aes-256-cbc -K $encrypted_e3ddca67c2d3_key -iv $encrypted_e3ddca67c2d3_iv -in private-cookies.txt.enc -out private-cookies.txt -d
 script:
 - sudo apt-get install shellcheck
 - shellcheck *.sh
+- ( cd tests/ && openssl aes-256-cbc -K $encrypted_e3ddca67c2d3_key -iv $encrypted_e3ddca67c2d3_iv -in private-cookies.txt.enc -out private-cookies.txt -d ; )
 - ./tests/tests.sh
