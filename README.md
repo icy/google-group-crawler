@@ -62,23 +62,29 @@ To download messages from private group or group hosted by your organization,
 you need to provide cookies in legacy format.
 
 1. Export cookies for `google` domains from your browser and
-   save them as file. Please use a Netscape format.
-   A sample `cookie` file is as below
+   save them as file. Please use a Netscape format, and you may want to
+   edit the file to meet a few conditions:
 
-        groups.google.com FALSE / FALSE 1461209169 G2_ADLT  1458617169721
-        .google.com       TRUE  / FALSE 1474428370 NID      77=a-very-long-string
-        .sstatic.net      TRUE  / FALSE 1490153162 __cfduid a-hash-of-some-thing
+   1. The first line should be `# Netscape HTTP Cookie File`
+   2. The file must use tab instead of space.
+   3. The first field of every line in the file must be `groups.google.com`.
 
-    (`G2_ADLT` available when you access some adult-contents group.)
+   A simple script to process this file is as below
 
-    When you have the file, please open it and find all instances of `#HttpOnly_`
-    and replace them with an empty string. The cookie file is expected to
-    have the following keys: `SID`, `HSID`, `SSDI` and `groupsloginpref`.
-    See also https://github.com/icy/google-group-crawler/issues/24.
+        $ cat original_cookies.txt \
+          | tail -n +3 \
+          | awk  -v OFS='\t' \
+            'BEGIN {printf("# Netscape HTTP Cookie File\n\n")}
+             {$1 = "groups.google.com"; printf("%s\n", $0)}'
+
+    See the sample files in the `tests/` directory
+
+    1. The original file: [tests/sample-original-cookies.txt](tests/sample-original-cookies.txt)
+    1. The fixed file: [tests/sample-fixed-cookies.txt](tests/sample-fixed-cookies.txt)
 
 2. Specify your cookie file by `_WGET_OPTIONS`:
 
-        export _WGET_OPTIONS="--load-cookies /your/path/my_cookies.txt --keep-session-cookies"
+        export _WGET_OPTIONS="--load-cookies /your/path/fixed_cookies.txt --keep-session-cookies"
 
    Now every hidden group can be downloaded :)
 

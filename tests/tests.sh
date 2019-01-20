@@ -4,6 +4,7 @@ _test_public_1() {
   export _GROUP="${_GROUP:-google-group-crawler-public}"
   export _D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
   export _F_OUTPUT="${_F_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}.sh}"
+  export _GREP_MESSAGE="${_GREP_MESSAGE:-CICD passed}"
 
   echo >&2 ""
   echo >&2 ":: --> Testing Public Group $_GROUP (ORG: ${_ORG:-<empty>}) <--"
@@ -24,7 +25,7 @@ _test_public_1() {
     return 1
   }
 
-  grep -Ri "CICD passed" "$_D_OUTPUT/mbox/" \
+  grep -Ri "$_GREP_MESSAGE" "$_D_OUTPUT/mbox/" \
   || {
     echo >&2 ":: Unable to find string 'CICD passed' from $_D_OUTPUT/mbox/"
     return 1
@@ -35,6 +36,8 @@ _test_reset() {
   unset _ORG
   unset _D_OUTPUT
   unset _F_OUTPUT
+  unset _GREP_MESSAGE
+  unset _WGET_OPTIONS
 }
 
 _test_public_1_with_cat() {
@@ -66,6 +69,7 @@ _test_public_2_with_cookie() {
     export _ORG="viettug.org"
     export _GROUP="google-group-crawler-public2"
     export _WGET_OPTIONS="--load-cookies $(pwd -P)/private-cookies.txt --keep-session-cookies"
+    export _GREP_MESSAGE="This is a public group from a private organization"
     _test_public_1
   )
 }
@@ -89,5 +93,5 @@ export PATH="$PATH:$(pwd -P)/../"
 _test_public_1 || exit 1
 _test_public_1_with_cat || exit 1
 _test_public_2_loop_detection || exit 1
-#_test_public_2_with_cookie || exit 2
-# _test_private_1 || exit 3
+_test_public_2_with_cookie || exit 2
+_test_private_1 || exit 3
