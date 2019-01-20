@@ -31,15 +31,22 @@ _test_public_1() {
   }
 }
 
+_test_reset() {
+  unset _ORG
+  unset _D_OUTPUT
+  unset _F_OUTPUT
+}
+
 _test_public_1_with_cat() {
   (
-    unset _ORG
+    _test_reset
     export _GROUP="google-group-crawler-public2"
     _test_public_1
   )
 }
 _test_public_2_loop_detection() {
   (
+    _test_reset
     export _ORG="viettug.org"
     export _GROUP="google-group-crawler-public2"
     export _WGET_OPTIONS="--load-cookies /dev/null --keep-session-cookies"
@@ -49,11 +56,13 @@ _test_public_2_loop_detection() {
       echo >&2 ":: Unable to detect a loop."
       return 1
     }
+    echo >&2 ":: Loop detected when no cookie is provided. Test passed."
   )
 }
 
 _test_public_2_with_cookie() {
   (
+    _test_reset
     export _ORG="viettug.org"
     export _GROUP="google-group-crawler-public2"
     export _WGET_OPTIONS="--load-cookies $(pwd -P)/private-cookies.txt --keep-session-cookies"
@@ -63,6 +72,7 @@ _test_public_2_with_cookie() {
 
 _test_private_1() {
   (
+    _test_reset
     export _GROUP="google-group-crawler-private"
     export _WGET_OPTIONS="--load-cookies $(pwd -P)/private-cookies.txt --keep-session-cookies"
     _test_public_1
@@ -70,6 +80,8 @@ _test_private_1() {
 }
 
 _main() { :; }
+
+set -u
 
 cd "$(dirname "${BASH_SOURCE[0]:-.}")/../tests/" || exit 1
 export PATH="$PATH:$(pwd -P)/../"
