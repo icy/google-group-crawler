@@ -1,6 +1,10 @@
 [![Build Status](https://travis-ci.org/icy/google-group-crawler.svg?branch=master)](https://travis-ci.org/icy/google-group-crawler)
 
-## Table of contents
+## Download all messages from Google Group archive
+
+`google-group-crawler` is a `Bash-4` script to download all (original)
+messages from a Google group archive.
+Private groups require some cookies file in Netscape format.
 
 * [Description](#description)
 * [Installation](#installation)
@@ -17,11 +21,6 @@
 * [License](#license)
 * [Author](#author)
 
-## Description
-
-This is a `Bash-4` script to download all original messages from
-a Google group archive. Private groups require you to load cookies from file.
-
 ## Installation
 
 The script requires `bash-4`, `sort`, `wget`, `sed`, `awk`.
@@ -36,14 +35,20 @@ https://github.com/icy/google-group-crawler/issues/26.
 
 ### The first run
 
-The first run
+For private group, please
+[prepare your cookies file](#private-group-or-group-hosted-by-an-organization).
 
-    # export _ORG="your.company"  # only if you are using Gsuite
-    export _GROUP="mygroup"       # specify your group
+    # export _WGET_OPTIONS="-v"       # use wget options to provide e.g, cookies
+    # export _HOOK_FILE="/some/path"  # provide a hook file, see in #the-hook
 
-    ./crawler.sh -sh              # first run for testing
-    ./crawler.sh -sh > wget.sh    # save your script
-    bash wget.sh                  # downloading mbox files
+    # export _ORG="your.company"      # required, if you are using Gsuite
+    export _GROUP="mygroup"           # specify your group
+    ./crawler.sh -sh                  # first run for testing
+    ./crawler.sh -sh > wget.sh        # save your script
+    bash wget.sh                      # downloading mbox files
+
+You can execute `wget.sh` script multiple times, as `wget` will skip
+quickly any fully downloaded files.
 
 ### Update your local archive thanks to RSS feed
 
@@ -51,8 +56,8 @@ After you have an archive from the first run you only need to add the latest
 messages as shown in the feed. You can do that with `-rss` option and the
 additional `_RSS_NUM` environment variable:
 
-    export _RSS_NUM=50            # (optional. See Tips & Tricks.)
-    ./crawler.sh -rss > update.sh # using rss feed for updating
+    export _RSS_NUM=50                # (optional. See Tips & Tricks.)
+    ./crawler.sh -rss > update.sh     # using rss feed for updating
 
 It's useful to follow this way frequently to update your local archive.
 
@@ -114,7 +119,8 @@ you can do as below.
         export _GROUP=archlinuxvn
         export _HOOK_FILE=$HOME/bin/wget.hook.sh
 
-   Now the hook file will be loaded in your future output script.
+   Now the hook file will be loaded in your future output of commands
+   `crawler.sh -sh` or `crawler.sh -rss`.
 
 ### What to do with your local archive
 
@@ -142,6 +148,7 @@ or you can use `_FORCE` option:
     _FORCE="true" ./crawler.sh -sh
 
 Another option is to delete all files under `$_GROUP/` directory.
+As usual, remember to backup before you delete some thing.
 
 ### Known problems
 
