@@ -152,6 +152,7 @@ As usual, remember to backup before you delete some thing.
 
 ### Known problems
 
+1. Fails on group with adult contens (https://github.com/icy/google-group-crawler/issues/14)
 1. This script may not recover emails from public groups.
   When you use valid cookies, you may see the original emails
   if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
