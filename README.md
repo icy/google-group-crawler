@@ -5,8 +5,8 @@
 `google-group-crawler` is a `Bash-4` script to download all (original)
 messages from a Google group archive.
 Private groups require some cookies file in Netscape format.
+Groups with adult contents haven't been supported yet.
 
-* [Description](#description)
 * [Installation](#installation)
 * [Usage](#usage)
   * [The first run](#the-first-run)
@@ -152,7 +152,7 @@ As usual, remember to backup before you delete some thing.
 
 ### Known problems
 
-1. Fails on group with adult contens (https://github.com/icy/google-group-crawler/issues/14)
+1. Fails on group with adult contents (https://github.com/icy/google-group-crawler/issues/14)
 1. This script may not recover emails from public groups.
   When you use valid cookies, you may see the original emails
   if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
