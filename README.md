@@ -58,6 +58,7 @@ additional `_RSS_NUM` environment variable:
 
     export _RSS_NUM=50                # (optional. See Tips & Tricks.)
     ./crawler.sh -rss > update.sh     # using rss feed for updating
+    bash update.sh                    # download the latest posts
 
 It's useful to follow this way frequently to update your local archive.
 
