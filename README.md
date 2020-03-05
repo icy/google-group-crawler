@@ -209,6 +209,7 @@ Please skip this section unless your really know to work with `Bash` and shells.
 
 ## Similar projects
 
+* (website) [Google Takeout - Download all info for any groups you own](https://takeout.google.com/)
 * (Shell/curl) [ggscrape - Download emails from a Google Group. Rescue your archives](https://git.scuttlebot.io/%25nkOkiGF0Dd321GmNqs6aW%2BWHaH9Uunq4m8dVfJuU%2Bps%3D.sha256)
 * (Python/Webdriver) [scrape_google_groups.py  - A simple script to scrape a google group](https://gist.github.com/punchagan/7947337)
 * (Python/webscraping.webkit) [gg-scrape - Liberate you data from google groups](https://github.com/jrholliday/gg-scrape)
