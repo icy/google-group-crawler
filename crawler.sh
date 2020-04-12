@@ -294,7 +294,7 @@ _GROUP="${_GROUP,,}"
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
 # _GROUP="${_GROUP//+/%2B}"
-_USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
+_USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0}"
 _WGET_OPTIONS="${_WGET_OPTIONS:-}"
 _RSS_NUM="${_RSS_NUM:-50}"
 
