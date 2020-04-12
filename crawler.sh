@@ -199,6 +199,7 @@ _rss() {
       -e 's#<link>##g' \
       -e 's#</link>##g' \
   | while read -r _url; do
+      # shellcheck disable=SC2001
       _id_origin="$(sed -e "s#.*$_GROUP/##g" <<<"$_url")"
       _url="https://groups.google.com${_ORG:+/a/$_ORG}/forum/message/raw?msg=$_GROUP/$_id_origin"
       _id="${_id_origin//\//.}"
@@ -288,13 +289,16 @@ __main__() { :; }
 
 set -u
 
-export _ORG="${_ORG:-}"
-export _GROUP="${_GROUP:-}"
-export _GROUP="${_GROUP,,}"
-export _D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
-export _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
-export _WGET_OPTIONS="${_WGET_OPTIONS:-}"
-export _RSS_NUM="${_RSS_NUM:-50}"
+_ORG="${_ORG:-}"
+_GROUP="${_GROUP,,}"
+_GROUP="${_GROUP:-}"
+_D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
+# _GROUP="${_GROUP//+/%2B}"
+_USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:34.0) Gecko/20100101 Firefox/34.0}"
+_WGET_OPTIONS="${_WGET_OPTIONS:-}"
+_RSS_NUM="${_RSS_NUM:-50}"
+
+export _ORG _GROUP _D_OUTPUT _USER_AGENT _WGET_OPTIONS _RSS_NUM
 
 _check || exit
 
