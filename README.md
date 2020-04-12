@@ -166,6 +166,9 @@ As usual, remember to backup before you delete some thing.
 1. `parallel` support: @Pikrass has a script to download messages in parallel.
   It's discussed in the ticket https://github.com/icy/google-group-crawler/issues/32.
   The script: https://gist.github.com/Pikrass/f8462ff8a9af18f97f08d2a90533af31
+2. `raw access denied`: @alexivkin mentioned he could use the `print` function
+  to work-around the issue. See it here
+  https://github.com/icy/google-group-crawler/issues/29#issuecomment-468810786
 
 ## Similar projects
 
