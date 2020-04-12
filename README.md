@@ -135,8 +135,11 @@ to your email clients  (`Thunderbird`, `claws-mail`, etc.)
 You can also use [mhonarc](https://www.mhonarc.org/) ultility to convert
 the downloaded to `HTML` files.
 
-See also https://github.com/icy/google-group-crawler/issues/15#issuecomment-221018338.
-and https://github.com/icy/google-group-crawler/issues/35#issuecomment-580659966
+See also
+
+* https://github.com/icy/google-group-crawler/issues/15#issuecomment-221018338
+* https://github.com/icy/google-group-crawler/issues/35#issuecomment-580659966
+* My script https://github.com/icy/bashy/blob/master/libs/raw2mbox.sh
 
 ### Rescan the whole local archive
 
