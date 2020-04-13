@@ -165,8 +165,8 @@ As usual, remember to backup before you delete some thing.
   if you are a manager of the group. See also https://github.com/icy/google-group-crawler/issues/16.
 2. When cookies are used, the original emails may be recovered
   and you must filter them before making your archive public.
-3. Got `423 Request Entity Too Large` with some group:
-  https://github.com/icy/google-group-crawler/issues/34
+3. Script can't fetch from group whose name contains some special character (e.g, `+`)
+  See also https://github.com/icy/google-group-crawler/issues/30
 
 ## Contributions
 

@@ -5,7 +5,7 @@
 # Date   : 2013 Sep 22nd
 # License: MIT license
 #
-# Copyright (c) 2013 - 2018 Ky-Anh Huynh <kyanh@viettug.org>
+# Copyright (c) 2013 - 2020 Ky-Anh Huynh <kyanh@viettug.org>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -35,6 +35,11 @@
 #
 # Raw, a MH mail message:
 #   https://groups.google.com/forum/message/raw?msg=archlinuxvn/_atKwaIFVGw/rnwjMJsA4ZYJ
+#
+# Specification:
+#
+#   1. https://developers.google.com/search/docs/ajax-crawling/docs/specification
+#   2. (Deprecation notice) https://webmasters.googleblog.com/2015/10/deprecating-our-ajax-crawling-scheme.html
 #
 # Atom link
 #
