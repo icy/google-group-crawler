@@ -24,7 +24,7 @@ Groups with adult contents haven't been supported yet.
 
 ## Installation
 
-The script requires `bash-4`, `sort`, `wget`, `sed`, `awk`.
+The script requires `bash-4`, `sort`, `curl`, `sed`, `awk`.
 
 Make the script executable with `chmod 755` and put them in your path
 (e.g, `/usr/local/bin/`.)
@@ -39,16 +39,16 @@ https://github.com/icy/google-group-crawler/issues/26.
 For private group, please
 [prepare your cookies file](#private-group-or-group-hosted-by-an-organization).
 
-    # export _WGET_OPTIONS="-v"       # use wget options to provide e.g, cookies
+    # export _CURL_OPTION="-v"        # use curl options to provide e.g, cookies
     # export _HOOK_FILE="/some/path"  # provide a hook file, see in #the-hook
 
     # export _ORG="your.company"      # required, if you are using Gsuite
     export _GROUP="mygroup"           # specify your group
     ./crawler.sh -sh                  # first run for testing
-    ./crawler.sh -sh > wget.sh        # save your script
-    bash wget.sh                      # downloading mbox files
+    ./crawler.sh -sh > curl.sh        # save your script
+    bash curl.sh                      # downloading mbox files
 
-You can execute `wget.sh` script multiple times, as `wget` will skip
+You can execute `curl.sh` script multiple times, as `curl` will skip
 quickly any fully downloaded files.
 
 ### Update your local archive thanks to RSS feed
@@ -66,32 +66,32 @@ It's useful to follow this way frequently to update your local archive.
 ### Private group or Group hosted by an organization
 
 To download messages from private group or group hosted by your organization,
-you need to provide cookies in legacy format.
+you need to provide some cookie information to the script. In the past,
+the script uses `wget` and the Netscape cookie file format,
+now we are using `curl` with cookie string and a configuration file.
 
-1. Export cookies for `google` domains from your browser and
-   save them as file. Please use a Netscape format, and you may want to
-   edit the file to meet a few conditions:
+0. Open Firefox, press F12 to enable Debug mode and select Network tab
+   from the Debug console of Firefox. (You may find a similar way for
+   your favorite browser.)
+1. Log in to your testing google account, and access your group.
+   For example
+     https://groups.google.com/forum/?_escaped_fragment_=categories/google-group-crawler-public
+   (replace `google-group-crawler-public` with your group name).
+   Make sure you can read some contents with your own group URI.
+2. Now from the Network tab in Debug console, select the address
+   and select `Copy -> Copy Request Headers`. You will have a lot of
+   things in the result, but please paste them in your text editor
+   and select only `Cookie` part.
+3. Now prepare a file `curl-options.txt` as below
 
-   1. The first line should be `# Netscape HTTP Cookie File`
-   2. The file must use tab instead of space.
-   3. The first field of every line in the file must be `groups.google.com`.
+        user-agent = "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0"
+        header = "Cookie: <snip>"
 
-   A simple script to process this file is as below
+   Of course, replace the `<snip>` part with your own cookie strings
 
-        $ cat original_cookies.txt \
-          | tail -n +3 \
-          | awk  -v OFS='\t' \
-            'BEGIN {printf("# Netscape HTTP Cookie File\n\n")}
-             {$1 = "groups.google.com"; printf("%s\n", $0)}'
+2. Specify your cookie file by `_CURL_OPTIONS`:
 
-    See the sample files in the `tests/` directory
-
-    1. The original file: [tests/sample-original-cookies.txt](tests/sample-original-cookies.txt)
-    1. The fixed file: [tests/sample-fixed-cookies.txt](tests/sample-fixed-cookies.txt)
-
-2. Specify your cookie file by `_WGET_OPTIONS`:
-
-        export _WGET_OPTIONS="--load-cookies /your/path/fixed_cookies.txt --keep-session-cookies"
+        export _CURL_OPTIONS="-K /path/to/curl-options.txt"
 
    Now every hidden group can be downloaded :)
 
@@ -100,13 +100,13 @@ you need to provide cookies in legacy format.
 If you want to execute a `hook` command after a `mbox` file is downloaded,
 you can do as below.
 
-1. Prepare a Bash script file that contains a definition of `__wget_hook`
+1. Prepare a Bash script file that contains a definition of `__curl_hook`
    command. The first argument is to specify an output filename, and the
    second argument is to specify an URL. For example, here is simple hook
 
         # $1: output file
         # $2: url (https://groups.google.com/forum/message/raw?msg=foobar/topicID/msgID)
-        __wget_hook() {
+        __curl_hook() {
           if [[ "$(stat -c %b "$1")" == 0 ]]; then
             echo >&2 ":: Warning: empty output '$1'"
           fi
@@ -119,7 +119,7 @@ you can do as below.
    to your file. For example,
 
         export _GROUP=archlinuxvn
-        export _HOOK_FILE=$HOME/bin/wget.hook.sh
+        export _HOOK_FILE=$HOME/bin/curl.hook.sh
 
    Now the hook file will be loaded in your future output of commands
    `crawler.sh -sh` or `crawler.sh -rss`.

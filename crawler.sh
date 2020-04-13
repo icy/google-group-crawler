@@ -60,10 +60,10 @@ _short_url() {
 
 _links_dump() {
   # shellcheck disable=2086
-  wget \
-    --user-agent="$_USER_AGENT" \
-    $_WGET_OPTIONS \
-    -O- "$@" \
+  curl \
+    --user-agent "$_USER_AGENT" \
+    $_CURL_OPTIONS \
+    -Lso- "$@" \
   | sed -e "s#['\"]#\\"$'\n#g' \
   | grep -E '^https?://' \
   | sort -u
@@ -107,6 +107,7 @@ _download_page() {
 
     # Loop detection. See also
     #   https://github.com/icy/google-group-crawler/issues/24
+    # FIXME: 2020/04: This isn't necessary after Google has changed something
     if [[ $__ -ge 1 ]]; then
       if diff "$_f_output" "$1.$(( __ - 1 ))" >/dev/null 2>&1; then
         echo >&2 ":: =================================================="
@@ -114,7 +115,7 @@ _download_page() {
         echo >&2 ":: You may want to generate new cookie file"
         echo >&2 ":: and/or remove all '#HttpOnly_' strings from it."
         echo >&2 ":: =================================================="
-        exit 1
+        exit 125
       fi
     fi
 
@@ -177,7 +178,7 @@ _main() {
   | sed -e 's#/d/msg/#/forum/message/raw?msg=#g' \
   | while read -r _url; do
       _id="$(echo "$_url"| sed -e "s#.*=$_GROUP/##g" -e 's#/#.#g')"
-      echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
+      echo "__curl__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
 }
 
@@ -187,10 +188,10 @@ _rss() {
   {
     echo >&2 ":: Fetching RSS data..."
     # shellcheck disable=2086
-    wget \
-      --user-agent="$_USER_AGENT" \
-      $_WGET_OPTIONS \
-      -O- "https://groups.google.com${_ORG:+/a/$_ORG}/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM}"
+    curl \
+      --user-agent "$_USER_AGENT" \
+      $_CURL_OPTIONS \
+      -Lso- "https://groups.google.com${_ORG:+/a/$_ORG}/forum/feed/$_GROUP/msgs/rss.xml?num=${_RSS_NUM}"
   } \
   | grep '<link>' \
   | grep 'd/msg/' \
@@ -203,26 +204,26 @@ _rss() {
       _id_origin="$(sed -e "s#.*$_GROUP/##g" <<<"$_url")"
       _url="https://groups.google.com${_ORG:+/a/$_ORG}/forum/message/raw?msg=$_GROUP/$_id_origin"
       _id="${_id_origin//\//.}"
-      echo "__wget__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
+      echo "__curl__ \"$_D_OUTPUT/mbox/m.${_id}\" \"$_url\""
     done
 }
 
 # $1: Output File
 # $2: The URL
-__wget__() {
+__curl__() {
   if [[ ! -f "$1" ]]; then
     # shellcheck disable=2086
-    wget \
-      --user-agent="$_USER_AGENT" \
-      $_WGET_OPTIONS \
-      "$2" -O "$1"
-    __wget_hook "$1" "$2"
+    curl -Ls \
+      -A "$_USER_AGENT" \
+      $_CURL_OPTIONS \
+      "$2" -o "$1"
+    __curl_hook "$1" "$2"
   fi
 }
 
 # $1: Output File
 # $2: The URL
-__wget_hook() {
+__curl_hook() {
   :
 }
 
@@ -242,9 +243,9 @@ _ship_hook() {
   echo "export _GROUP=\"\${_GROUP:-$_GROUP}\""
   echo "export _D_OUTPUT=\"\${_D_OUTPUT:-$_D_OUTPUT}\""
   echo "export _USER_AGENT=\"\${_USER_AGENT:-$_USER_AGENT}\""
-  echo "export _WGET_OPTIONS=\"\${_WGET_OPTIONS:-$_WGET_OPTIONS}\""
+  echo "export _CURL_OPTIONS=\"\${_CURL_OPTIONS:-$_CURL_OPTIONS}\""
   echo ""
-  declare -f __wget_hook
+  declare -f __curl_hook
 
   if [[ -f "${_HOOK_FILE:-}" ]]; then
     declare -f __sourcing_hook
@@ -254,7 +255,7 @@ _ship_hook() {
     exit 1
   fi
 
-  declare -f __wget__
+  declare -f __curl__
 }
 
 _help() {
@@ -270,7 +271,7 @@ _has_command() {
 
 _check() {
   local _requirements=
-  _requirements="wget sort awk sed diff"
+  _requirements="curl sort awk sed diff"
   # shellcheck disable=2086
   _has_command $_requirements \
   || {
@@ -290,15 +291,14 @@ __main__() { :; }
 set -u
 
 _ORG="${_ORG:-}"
-_GROUP="${_GROUP,,}"
 _GROUP="${_GROUP:-}"
 _D_OUTPUT="${_D_OUTPUT:-./${_ORG:+${_ORG}-}${_GROUP}/}"
 # _GROUP="${_GROUP//+/%2B}"
 _USER_AGENT="${_USER_AGENT:-Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0}"
-_WGET_OPTIONS="${_WGET_OPTIONS:-}"
+_CURL_OPTIONS="${_CURL_OPTIONS:-}"
 _RSS_NUM="${_RSS_NUM:-50}"
 
-export _ORG _GROUP _D_OUTPUT _USER_AGENT _WGET_OPTIONS _RSS_NUM
+export _ORG _GROUP _D_OUTPUT _USER_AGENT _CURL_OPTIONS _RSS_NUM
 
 _check || exit
 
