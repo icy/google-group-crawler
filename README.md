@@ -4,7 +4,7 @@
 
 `google-group-crawler` is a `Bash-4` script to download all (original)
 messages from a Google group archive.
-Private groups require some cookies file in Netscape format.
+Private groups require some cookies string/file.
 Groups with adult contents haven't been supported yet.
 
 * [Installation](#installation)
