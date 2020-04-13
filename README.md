@@ -87,7 +87,8 @@ now we are using `curl` with cookie string and a configuration file.
         user-agent = "Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0"
         header = "Cookie: <snip>"
 
-   Of course, replace the `<snip>` part with your own cookie strings
+   Of course, replace the `<snip>` part with your own cookie strings.
+   See `man curl` for more details of the file format.
 
 2. Specify your cookie file by `_CURL_OPTIONS`:
 
