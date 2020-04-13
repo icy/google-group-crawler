@@ -1,3 +1,9 @@
+## v2.0.0
+
+* Using `curl` instead of `wget`
+* Fix #36 (unable to read cookie file)
+* Fix #34 (`413 Request Entity Too Large`)
+
 ## v1.2.2
 
 * Loop detection: #24.

@@ -4,5 +4,5 @@ language:
 script:
 - sudo apt-get install shellcheck
 - shellcheck *.sh
-- ( cd tests/ && openssl aes-256-cbc -K $encrypted_e3ddca67c2d3_key -iv $encrypted_e3ddca67c2d3_iv -in private-cookies.txt.enc -out private-cookies.txt -d ; )
+- ( cd tests/ && openssl aes-256-cbc -K $encrypted_4d6c5775c90a_key -iv $encrypted_4d6c5775c90a_iv -in curl-options.txt.enc -out curl-options.txt -d ;)
 - ./tests/tests.sh
