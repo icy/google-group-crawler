@@ -175,7 +175,7 @@ _main() {
   #                                       /
   # FIXME: Sorting issue here -----------'
 
-  echo >&2 ":: Downloading all raw messages..."
+  echo >&2 ":: Gnerating command to download raw messages..."
   find "$_D_OUTPUT"/msgs/ -type f -iname "m.*" -exec cat {} \; \
   | grep '^https://' \
   | grep '/d/msg/' \
@@ -217,12 +217,15 @@ _rss() {
 # $2: The URL
 __curl__() {
   if [[ ! -f "$1" ]]; then
+    >&2 echo ":: Downloading '$1'..."
     # shellcheck disable=2086
     curl -Ls \
       -A "$_USER_AGENT" \
       $_CURL_OPTIONS \
       "$2" -o "$1"
     __curl_hook "$1" "$2"
+  else
+    >&2 echo ":: Skipping '$1'..."
   fi
 }
 
