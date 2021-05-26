@@ -39,7 +39,7 @@ https://github.com/icy/google-group-crawler/issues/26.
 For private group, please
 [prepare your cookies file](#private-group-or-group-hosted-by-an-organization).
 
-    # export _CURL_OPTION="-v"        # use curl options to provide e.g, cookies
+    # export _CURL_OPTIONS="-v"       # use curl options to provide e.g, cookies
     # export _HOOK_FILE="/some/path"  # provide a hook file, see in #the-hook
 
     # export _ORG="your.company"      # required, if you are using Gsuite
