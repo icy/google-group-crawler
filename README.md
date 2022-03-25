@@ -1,3 +1,7 @@
+WARNING: This project doesn't work and it's deprecated. 
+**Reason:** Ajax support is completely deprecated by Google
+  See also https://github.com/icy/google-group-crawler/issues/42#issuecomment-889013487
+
 [![Build Status](https://travis-ci.org/icy/google-group-crawler.svg?branch=master)](https://travis-ci.org/icy/google-group-crawler)
 
 ## Download all messages from Google Group archive
